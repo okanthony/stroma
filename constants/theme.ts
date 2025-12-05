@@ -4,26 +4,29 @@
  */
 
 import { Platform } from 'react-native';
+import { colors } from './design-tokens';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
-export const Colors = {
+export const ThemeColors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight
+    text: colors.text.primary.light, // '#171717'
+    background: colors.background.light, // '#ffffff'
+    tint: colors.primary[500], // Your primary green
+    icon: colors.neutral[600], // '#525252'
+    tabIconDefault: colors.neutral[400], // '#a3a3a3'
+    tabIconSelected: colors.primary[500],
+    border: colors.border.light, // '#e5e5e5'
+    card: colors.surface.light // '#f5f5f5'
+    // Add any other colors you need
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark
+    text: colors.text.primary.dark, // '#fafafa'
+    background: colors.background.dark, // '#0a0a0a'
+    tint: colors.primary[400], // Slightly lighter green for dark mode
+    icon: colors.neutral[400], // '#a3a3a3'
+    tabIconDefault: colors.neutral[600], // '#525252'
+    tabIconSelected: colors.primary[400],
+    border: colors.border.dark, // '#404040'
+    card: colors.surface.dark // '#171717'
   }
 };
 
