@@ -348,21 +348,21 @@ export const PlantWateringData: Record<PlantType, PlantWateringDataEntry> = {
 };
 
 export const PLANT_IMAGES_BY_TYPE = {
-  [PlantType.Monstera]: require('@/assets/images/plants/opt/optimized-monstera-1.jpg'),
-  [PlantType.Pothos]: require('@/assets/images/plants/opt/optimized-pothos-1.jpg'),
-  [PlantType.Dracaena]: require('@/assets/images/plants/opt/optimized-dracaena-1.jpg'),
-  [PlantType.SpiderPlant]: require('@/assets/images/plants/opt/optimized-spider-plant-1.jpg'),
-  [PlantType.SnakePlant]: require('@/assets/images/plants/opt/optimized-snake-plant-1.jpg'),
-  [PlantType.RubberPlant]: require('@/assets/images/plants/opt/optimized-rubber-plant-1.jpg'),
-  [PlantType.PeaceLily]: require('@/assets/images/plants/opt/optimized-peace-lily-1.jpg'),
-  [PlantType.ZzPlant]: require('@/assets/images/plants/opt/optimized-zz-plant-1.jpg'),
-  [PlantType.Philodendron]: require('@/assets/images/plants/opt/optimized-philodendron-1.jpg'),
-  [PlantType.AloeVera]: require('@/assets/images/plants/opt/optimized-aloe-vera-1.jpg'),
-  [PlantType.FiddleLeafFig]: require('@/assets/images/plants/opt/optimized-fiddle-leaf-fig-1.jpg'),
-  [PlantType.ChineseEvergreen]: require('@/assets/images/plants/opt/optimized-chinese-evergreen-1.webp'),
-  [PlantType.BostonFern]: require('@/assets/images/plants/opt/optimized-boston-fern-1.webp'),
-  [PlantType.JadePlant]: require('@/assets/images/plants/opt/optimized-jade-plant-1.jpg'),
-  [PlantType.EnglishIvy]: require('@/assets/images/plants/opt/optimized-english-ivy-1.jpg')
+  [PlantType.Monstera]: require('@/assets/images/plants/optimized-monstera-1.jpg'),
+  [PlantType.Pothos]: require('@/assets/images/plants/optimized-pothos-1.jpg'),
+  [PlantType.Dracaena]: require('@/assets/images/plants/optimized-dracaena-1.jpg'),
+  [PlantType.SpiderPlant]: require('@/assets/images/plants/optimized-spider-plant-1.jpg'),
+  [PlantType.SnakePlant]: require('@/assets/images/plants/optimized-snake-plant-1.jpg'),
+  [PlantType.RubberPlant]: require('@/assets/images/plants/optimized-rubber-plant-1.jpg'),
+  [PlantType.PeaceLily]: require('@/assets/images/plants/optimized-peace-lily-1.jpg'),
+  [PlantType.ZzPlant]: require('@/assets/images/plants/optimized-zz-plant-1.jpg'),
+  [PlantType.Philodendron]: require('@/assets/images/plants/optimized-philodendron-1.jpg'),
+  [PlantType.AloeVera]: require('@/assets/images/plants/optimized-aloe-vera-1.jpg'),
+  [PlantType.FiddleLeafFig]: require('@/assets/images/plants/optimized-fiddle-leaf-fig-1.jpg'),
+  [PlantType.ChineseEvergreen]: require('@/assets/images/plants/optimized-chinese-evergreen-1.webp'),
+  [PlantType.BostonFern]: require('@/assets/images/plants/optimized-boston-fern-1.webp'),
+  [PlantType.JadePlant]: require('@/assets/images/plants/optimized-jade-plant-1.jpg'),
+  [PlantType.EnglishIvy]: require('@/assets/images/plants/optimized-english-ivy-1.jpg')
 };
 
 export interface PlantCareData {
