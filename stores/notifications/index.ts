@@ -18,15 +18,21 @@ interface NotificationsState {
   reminderTime: string; // ISO string of Date with time set (e.g., "2024-01-01T09:00:00")
 
   // Actions
+  // Permissions
   getNotificationPermissionStatus: () => PermissionStatus;
   requestNotificationPermissions: () => Promise<PermissionStatus>;
-  setNotificationsEnabled: (enabled: boolean) => void;
   getSystemPermissionStatus: () => Promise<void>;
+  arePermissionsDenied: () => boolean;
+  arePermissionsGranted: () => boolean;
+
+  // Notifications
+  setNotificationsEnabled: (enabled: boolean) => void;
   scheduleNotificationsForPlant: (plantId: string) => Promise<string[] | null>;
   cancelNotificationForPlant: (notificationId: string) => Promise<void>;
   cancelAllNotificationsForPlant: (plantId: string) => Promise<void>;
   rescheduleAllNotifications: () => Promise<void>;
-  arePermissionsDenied: () => boolean;
+
+  // Notification time
   setReminderTimeGlobal: (time: Date) => Promise<void>;
   getReminderTimeGlobal: () => Date;
 }
@@ -63,6 +69,12 @@ export const useNotificationsStore = create<NotificationsState>()(
       arePermissionsDenied: () => {
         const status = get().permissionStatus;
         return status !== 'granted';
+      },
+
+      // TODO: use this instead of denied fn as there is also undetermined status?
+      arePermissionsGranted: () => {
+        const status = get().permissionStatus;
+        return status === 'granted';
       },
 
       // Request permissions from the user
