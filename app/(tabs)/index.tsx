@@ -1,98 +1,284 @@
+// Components
+import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { Text } from '@/components/Text/index';
+import Toast from 'react-native-toast-message';
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Icon } from '@/components/Icon';
+import { Card } from '@/components/Card/index';
+import { Row } from '@/components/Row/index';
+import { ScreenContainer } from '@/components/ScreenContainer';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+// Internal
+import { usePlantStore } from '@/stores';
+import { calculateNextWatering } from '@/utils/watering';
+import { spacing, colors, typography, shadows } from '@/constants/design-tokens';
+import { formatTitleCase } from '@/utils/formatTitleCase';
 
-export default function HomeScreen() {
+// External
+import React from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { getImageByPlantType } from '@/utils/getImageByPlantType';
+import { PlantWithWateringInfo } from './index.types';
+import { getPlantsByCategoryData, getSubheading, getWateringStatus } from './index.utils';
+
+// Component
+export default function Plants() {
+  // Hooks
+  const { showWelcomeToast } = useLocalSearchParams();
+
+  // Hooks - stores
+  const { getAllPlants } = usePlantStore();
+
+  // Hooks - effects
+  React.useEffect(() => {
+    if (showWelcomeToast === 'true') {
+      Toast.show({
+        type: 'success',
+        text1: 'Your plant was added!',
+        position: 'bottom',
+        visibilityTime: 3000
+      });
+    }
+  }, [showWelcomeToast]);
+
+  // Vars
+  const plants = getAllPlants();
+  const plantsByCategory = getPlantsByCategoryData(plants);
+
+  // Utils
+  const renderSubheading = () => {
+    const subheading = getSubheading(plantsByCategory);
+
+    if (subheading) {
+      return (
+        <Text variant='body' style={styles.pageSubheading}>
+          {subheading}
+        </Text>
+      );
+    }
+
+    return null;
+  };
+
+  const renderPlantRow = ({ item }: { item: PlantWithWateringInfo }) => {
+    // Vars
+    const nextWatering = calculateNextWatering({
+      lastWatered: item.lastWatered,
+      type: item.type
+    });
+    const wateringStatus = getWateringStatus(nextWatering.min, nextWatering.max);
+    const iconNotifications = item.areNotificationsEnabled ? 'bell.fill' : 'bell.slash';
+    const stylesWateringStatus = [styles.wateringText, wateringStatus.isOverdue && styles.wateringTextOverdue];
+
+    // Render
+    return (
+      <Pressable onPress={() => router.push(`/plant/${item.id}`)}>
+        <View style={styles.plantRow}>
+          {/* Left side - Plant image */}
+          <Image source={getImageByPlantType(item.type)} style={styles.plantImage} contentFit='cover' />
+
+          {/* Right side - Plant details (three rows) */}
+          <View style={styles.plantDetails}>
+            {/* Top row: Name (left) */}
+            <Row align='center' justify='space-between'>
+              <Text variant='body' weight='semibold' style={styles.plantName}>
+                {item.name}
+              </Text>
+            </Row>
+
+            {/* Middle row: Room (left) */}
+            <Row>
+              <Text variant='caption' style={styles.plantRoom}>
+                {formatTitleCase(item.room) || 'No room'}
+              </Text>
+            </Row>
+
+            {/* Bottom row: Pill (left) + notification icon (right) */}
+            <Row align='center' justify='space-between'>
+              <View style={styles.wateringPill}>
+                <Row align='center' gap='xs'>
+                  <Icon name='drop.fill' size={14} color={colors.neutral[900]} />
+                  <Text variant='caption' style={stylesWateringStatus}>
+                    {wateringStatus.text}
+                  </Text>
+                </Row>
+              </View>
+
+              <Icon name={iconNotifications} size={20} color={colors.neutral[600]} />
+            </Row>
+          </View>
+        </View>
+      </Pressable>
+    );
+  };
+
+  const renderSection = (title: string, data: PlantWithWateringInfo[]) => {
+    if (data.length === 0) return null;
+
+    return (
+      <View style={styles.sectionContainer}>
+        <Text variant='subheading' weight='bold' style={styles.sectionTitle}>
+          {title}
+        </Text>
+        <Card style={styles.sectionCard}>
+          {data.map((plant, index) => (
+            <View key={plant.id}>
+              {renderPlantRow({ item: plant })}
+              {/* Add divider between plants, but not after last one */}
+              {index < data.length - 1 && <View style={styles.divider} />}
+            </View>
+          ))}
+        </Card>
+      </View>
+    );
+  };
+
+  // Render
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hello world!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <ScreenContainer padding={false}>
+      <FlatList
+        data={[1]}
+        contentContainerStyle={styles.content}
+        ListHeaderComponent={() => (
+          <>
+            <Text variant='heading' weight='bold' style={styles.pageTitle}>
+              My Plants
+            </Text>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+            {renderSubheading()}
+          </>
+        )}
+        renderItem={() => (
+          <>
+            {renderSection('Today', plantsByCategory.today)}
+            {renderSection('This Week', plantsByCategory.thisWeek)}
+            {renderSection('Next Week', plantsByCategory.nextWeek)}
+            {renderSection('This Month', plantsByCategory.thisMonth)}
+
+            {plants.length === 0 && (
+              <View style={styles.emptyState}>
+                <Text style={styles.emptyText}>No plants yet. Add your first plant!</Text>
+              </View>
+            )}
+          </>
+        )}
+        keyExtractor={() => 'sections'}
+      />
+
+      {/* Floating Add Button */}
+      <Pressable style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]} onPress={() => router.push('/plant/add')} accessibilityLabel='Add new plant' accessibilityRole='button'>
+        <Icon name='plus' size={28} color={colors.primary[500]} />
+      </Pressable>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  // Start styles - bell icon/living room right aligned, two rows
+  content: {
+    padding: spacing.lg,
+    paddingBottom: spacing.xxl + 60
+  },
+  pageTitle: {
+    color: colors.neutral[900],
+    marginBottom: spacing.sm
+  },
+  pageSubheading: {
+    color: colors.neutral[600],
+    marginBottom: spacing.lg
+  },
+  section: {
+    marginBottom: spacing.xl
+  },
+  plantRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
+    gap: spacing.md
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  plantImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 340
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  plantDetails: {
+    flex: 1,
+    gap: spacing.xs // Space between the two rows
+  },
+  plantName: {
+    color: colors.neutral[900],
+    flex: 1, // Allows text to wrap if needed
+    marginRight: spacing.sm // Small gap before icon
+  },
+  plantRoom: {
+    color: colors.neutral[600]
+  },
+  wateringPill: {
+    backgroundColor: colors.neutral[0],
+    borderWidth: 1,
+    borderColor: colors.neutral[900],
+    borderRadius: 16,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs
+  },
+  wateringText: {
+    color: colors.neutral[900]
+  },
+  wateringTextOverdue: {
+    color: colors.error
+  },
+  plantInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1
+  },
+
+  emptyState: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.xxl
+  },
+  emptyText: {
+    fontSize: typography.sizes.base,
+    color: colors.neutral[600]
+  },
+  fab: {
     position: 'absolute',
+    bottom: spacing.xl + 20, // Above tab bar (adjust if needed)
+    right: spacing.lg,
+    width: 56,
+    height: 56,
+    borderRadius: 28, // Half of width/height for circle
+    backgroundColor: '#FFFAE9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...shadows.lg // Shadow from design tokens
   },
+  fabPressed: {
+    opacity: 0.8,
+    transform: [{ scale: 0.95 }]
+  },
+
+  sectionContainer: {
+    marginBottom: spacing.lg
+    // margin left right 8px or so, not sure why
+  },
+  sectionTitle: {
+    // paddingHorizontal: spacing.lg,
+    marginBottom: spacing.sm
+  },
+  sectionCard: {
+    marginLeft: 0,
+    marginRight: 0,
+    marginHorizontal: spacing.md,
+    padding: 0, // Override Card's default padding
+    // backgroundColor: colors.neutral[0] // White
+    backgroundColor: colors.neutral[50]
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.neutral[200],
+    marginHorizontal: spacing.lg
+  }
 });

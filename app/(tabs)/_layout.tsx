@@ -1,33 +1,51 @@
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
-
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
+import { Icon } from '@/components/Icon';
+import { ThemeColors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useAuthStore } from '@/stores';
 
 export default function TabLayout() {
+  // Hooks - custom
   const colorScheme = useColorScheme();
+
+  // Hooks - stories
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  // Render
+  if (!isAuthenticated) {
+    return <Redirect href='/sign-in' />;
+  }
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: ThemeColors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+        tabBarShowLabel: false
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          headerShown: false,
+          tabBarIcon: ({ color }) => <Icon size={28} name='leaf.fill' color={color} />
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name='notifications'
         options={{
-          title: 'Plants',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          headerShown: false,
+          tabBarIcon: ({ color }) => <Icon size={28} name='bell.fill' color={color} />
+        }}
+      />
+      <Tabs.Screen
+        name='account'
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <Icon size={28} name='person.fill' color={color} />
         }}
       />
     </Tabs>
