@@ -255,7 +255,7 @@ export const useNotificationsStore = create<NotificationsState>()(
       }
     }),
     {
-      name: 'stroma-store-plants',
+      name: 'stroma-store-notifications',
       storage: createJSONStorage(() => AsyncStorage)
     }
   )
