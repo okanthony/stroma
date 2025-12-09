@@ -1,12 +1,22 @@
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
 import { HapticTab } from '@/components/haptic-tab';
 import { Icon } from '@/components/Icon';
 import { ThemeColors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useAuthStore } from '@/stores';
 
 export default function TabLayout() {
+  // Hooks - custom
   const colorScheme = useColorScheme();
+
+  // Hooks - stories
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  // Render
+  if (!isAuthenticated) {
+    return <Redirect href='/sign-in' />;
+  }
 
   return (
     <Tabs
