@@ -1,5 +1,5 @@
 import { ROOM_OPTIONS } from '@/constants/rooms';
-import { formatTitleCase } from './formatTitleCase';
+import { formatTitleCase } from '../formatTitleCase';
 
 // Get formatted options for dropdown
 export function getRoomDropdownOptions() {
