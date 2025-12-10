@@ -13,7 +13,6 @@ interface NotificationsState {
   // State
   permissionStatus: PermissionStatus;
   hasRequestedPermission: boolean;
-  areNotificationsEnabled: boolean;
   scheduledNotifications: Record<string, ScheduledNotification>; // keyed by notification ID
   reminderTime: string; // ISO string of Date with time set (e.g., "2024-01-01T09:00:00")
 
@@ -26,7 +25,6 @@ interface NotificationsState {
   arePermissionsGranted: () => boolean;
 
   // Notifications
-  setNotificationsEnabled: (enabled: boolean) => void;
   scheduleNotificationsForPlant: (plantId: string) => Promise<string[] | null>;
   cancelNotificationForPlant: (notificationId: string) => Promise<void>;
   cancelAllNotificationsForPlant: (plantId: string) => Promise<void>;
@@ -84,17 +82,10 @@ export const useNotificationsStore = create<NotificationsState>()(
 
         set({
           permissionStatus: status,
-          hasRequestedPermission: true,
-          // Auto-enable notifications if permission granted
-          areNotificationsEnabled: status === 'granted'
+          hasRequestedPermission: true
         });
 
         return status;
-      },
-
-      // Toggle user preference for notifications
-      setNotificationsEnabled: (areNotificationsEnabled: boolean) => {
-        set({ areNotificationsEnabled });
       },
 
       // Check current system permissions
@@ -143,8 +134,9 @@ export const useNotificationsStore = create<NotificationsState>()(
 
         const { plants, updatePlant } = usePlantStore.getState();
         const plant = plants[plantId];
+
         // Don't schedule if missing plant data or notifications aren't enabled globally
-        if (!plant || !plant.lastWatered || !state.areNotificationsEnabled || state.permissionStatus !== 'granted') {
+        if (!plant || !plant.lastWatered || state.permissionStatus !== 'granted') {
           return null;
         }
 
