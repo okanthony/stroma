@@ -10,12 +10,12 @@ import React from 'react';
 // Component
 export default function Index() {
   // Hooks - stores
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { session } = useAuthStore();
   const { getAllPlants } = usePlantStore();
 
   // Render
   // Not authenticated -> sign in
-  if (!isAuthenticated) {
+  if (!session) {
     return <Redirect href='/sign-in' />;
   }
 

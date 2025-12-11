@@ -11,10 +11,10 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   // Hooks - stories
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { session } = useAuthStore();
 
   // Render
-  if (!isAuthenticated) {
+  if (!session) {
     return <Redirect href='/sign-in' />;
   }
 
