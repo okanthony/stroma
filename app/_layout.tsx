@@ -17,6 +17,7 @@ import 'react-native-reanimated';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { setNotificationHandler } from 'expo-notifications';
+import { supabase } from '@/clients/supabase';
 
 // Constants
 const { width, height } = Dimensions.get('window');
@@ -68,6 +69,35 @@ export default function RootLayout() {
       clearTimeout(timer);
       unsubscribe();
     };
+  }, []);
+
+  // Manage Supabase user session
+  React.useEffect(() => {
+    // Check for existing session on app start
+    const initAuth = async () => {
+      const {
+        data: { session }
+      } = await supabase.auth.getSession();
+
+      console.log('SESHHH', session);
+
+      // Always set explicitly, even if null, to clear any potential stale data
+      useAuthStore.getState().setSession(session);
+      useAuthStore.getState().setUser(session?.user ?? null);
+    };
+
+    initAuth();
+
+    // Listen for auth changes
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      // Always set explicitly, even if null, to clear any potential stale data
+      useAuthStore.getState().setSession(session);
+      useAuthStore.getState().setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   // Configure expo notifications
