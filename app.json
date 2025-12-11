@@ -2,13 +2,17 @@
   "expo": {
     "name": "stroma",
     "slug": "stroma",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "stroma",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "bundleIdentifier": "com.venturespringmedia.stroma",
+      "associatedDomains": [
+        "applinks:stroma.app"
+      ],
       "supportsTablet": true
     },
     "android": {
