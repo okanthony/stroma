@@ -1,6 +1,6 @@
 // Components
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { NamePlant, NamePlantSubmitData } from '@/pages/NamePlant';
+import { NamePlant, NamePlantSubmitData } from '@/pages/SelectPlantDetails';
 import { Text } from '@/components/Text/index';
 
 // Internal
