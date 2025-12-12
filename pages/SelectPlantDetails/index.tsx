@@ -34,16 +34,16 @@ const namePlantSchema = z.object({
 });
 
 // Types
-type NamePlantFormData = z.infer<typeof namePlantSchema>;
+type SelectPlantDetailsFormData = z.infer<typeof namePlantSchema>;
 
 // Declare different type for use in parent component as lastWatered is Date in form but converted to string in submit handler
-export type NamePlantSubmitData = {
+export type SelectPlantDetailsSubmitData = {
   name: string;
   room: string;
   lastWatered: string;
 };
 
-type NamePlantProps = {
+type SelectPlantDetailsProps = {
   initialName?: string;
   initialRoom?: string;
   initialLastWatered?: Date;
@@ -54,7 +54,7 @@ type NamePlantProps = {
 };
 
 // Component
-export function NamePlant({
+export function SelectPlantDetails({
   initialName = '',
   initialRoom = '',
   initialLastWatered,
@@ -62,7 +62,7 @@ export function NamePlant({
   submitButtonLabel = 'Continue',
   title = 'Tell us more about your plant',
   isLoading = false
-}: NamePlantProps) {
+}: SelectPlantDetailsProps) {
   // Hooks - state
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [tempDate, setTempDate] = React.useState(new Date());
@@ -75,7 +75,7 @@ export function NamePlant({
     setValue,
     watch,
     clearErrors
-  } = useForm<NamePlantFormData>({
+  } = useForm<SelectPlantDetailsFormData>({
     resolver: zodResolver(namePlantSchema),
     defaultValues: {
       name: initialName,
@@ -123,7 +123,7 @@ export function NamePlant({
   const datePickerMinDate = new Date(new Date().setMonth(new Date().getMonth() - 3));
 
   // Handlers
-  const handleFormSubmit = (data: NamePlantFormData) => {
+  const handleFormSubmit = (data: SelectPlantDetailsFormData) => {
     onSubmit({
       name: data.name?.trim() || '',
       room: data.room,

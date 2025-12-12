@@ -1,6 +1,6 @@
 // Components
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { NamePlant, NamePlantSubmitData } from '@/pages/SelectPlantDetails';
+import { SelectPlantDetails, SelectPlantDetailsSubmitData } from '@/pages/SelectPlantDetails';
 import { Text } from '@/components/Text/index';
 
 // Internal
@@ -27,7 +27,7 @@ export default function AddPlantDetails() {
   const areNotificationsEnabled = arePermissionsGranted();
 
   // Handlers
-  const handleSubmit = async (data: NamePlantSubmitData) => {
+  const handleSubmit = async (data: SelectPlantDetailsSubmitData) => {
     if (!plantId) return;
 
     setIsLoading(true);
@@ -59,7 +59,7 @@ export default function AddPlantDetails() {
 
   return (
     <ScreenContainer padding={false}>
-      <NamePlant isLoading={isLoading} onSubmit={handleSubmit} submitButtonLabel='Save' />
+      <SelectPlantDetails isLoading={isLoading} onSubmit={handleSubmit} submitButtonLabel='Save' />
     </ScreenContainer>
   );
 }

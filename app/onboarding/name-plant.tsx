@@ -1,6 +1,6 @@
 // Components
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { NamePlant, NamePlantSubmitData } from '@/pages/SelectPlantDetails';
+import { SelectPlantDetails, SelectPlantDetailsSubmitData } from '@/pages/SelectPlantDetails';
 import { Text } from '@/components/Text/index';
 
 // Internal
@@ -20,7 +20,7 @@ export default function OnboardingNamePlant() {
   const isIos = Platform.OS === 'ios';
 
   // Handlers
-  const handleSubmit = async (data: NamePlantSubmitData) => {
+  const handleSubmit = async (data: SelectPlantDetailsSubmitData) => {
     if (!plantId) return;
 
     // Update plant data
@@ -42,7 +42,7 @@ export default function OnboardingNamePlant() {
 
   return (
     <ScreenContainer padding={false}>
-      <NamePlant onSubmit={handleSubmit} />
+      <SelectPlantDetails onSubmit={handleSubmit} />
     </ScreenContainer>
   );
 }
