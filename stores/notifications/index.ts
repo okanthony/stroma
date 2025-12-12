@@ -34,8 +34,8 @@ interface NotificationsState {
   setReminderTimeGlobal: (time: Date) => Promise<void>;
   getReminderTimeGlobal: () => Date;
 
-  // For testing purpose only
-  clearNotifications: () => Promise<void>;
+  // Admin
+  clearNotificationsStore: () => Promise<void>;
 }
 
 interface ScheduledNotification {
@@ -80,7 +80,6 @@ export const useNotificationsStore = create<NotificationsState>()(
       // Request permissions from the user
       requestNotificationPermissions: async () => {
         const { status } = await Notifications.requestPermissionsAsync();
-        console.log('STATUS FN', status);
 
         set({
           permissionStatus: status,
@@ -248,7 +247,7 @@ export const useNotificationsStore = create<NotificationsState>()(
         });
       },
 
-      clearNotifications: async () => {
+      clearNotificationsStore: async () => {
         // Cancel all scheduled notifications
         await Notifications.cancelAllScheduledNotificationsAsync();
 
@@ -258,7 +257,12 @@ export const useNotificationsStore = create<NotificationsState>()(
           permissionStatus: 'undetermined',
           hasRequestedPermission: false,
           scheduledNotifications: {},
-          reminderTime: undefined
+          reminderTime: (() => {
+            const date = new Date();
+            // Default to 9:00 AM
+            date.setHours(9, 0, 0, 0);
+            return date.toISOString();
+          })()
         });
       }
     }),
