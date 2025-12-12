@@ -20,9 +20,9 @@ export default function OnboardingEnableNotifications() {
   const { plantId } = useLocalSearchParams<{ plantId: string }>();
 
   // Hooks - stores
-  const { logout, setIsAppLoaded } = useAuthStore();
-  const { updatePlant, deleteAllPlants } = usePlantStore();
-  const { requestNotificationPermissions, scheduleNotificationsForPlant } = useNotificationsStore();
+  const { signOut, setIsAppLoaded } = useAuthStore();
+  const { updatePlant, clearPlantsStore } = usePlantStore();
+  const { requestNotificationPermissions, scheduleNotificationsForPlant, clearNotificationsStore } = useNotificationsStore();
 
   // Hooks - state
   const [permissionStatus, setPermissionStatus] = React.useState<PermissionStatus | ''>('');
@@ -107,10 +107,12 @@ export default function OnboardingEnableNotifications() {
       {/* Test escape hatch - Log out button */}
       <View style={styles.logoutContainer}>
         <Text
-          onPress={() => {
-            logout();
+          onPress={async () => {
+            clearPlantsStore();
+            await clearNotificationsStore();
+            await signOut();
+            // Leaving this here to test app hyrdration check still works
             setIsAppLoaded(false);
-            deleteAllPlants();
             router.replace('/');
           }}
           style={styles.logoutText}
