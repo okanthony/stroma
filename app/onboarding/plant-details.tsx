@@ -1,7 +1,6 @@
 // Components
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { LogLastWatered } from '@/pages/LogLastWatered';
-import { Platform } from 'react-native';
+import { SelectPlantDetails, SelectPlantDetailsSubmitData } from '@/pages/SelectPlantDetails';
 import { Text } from '@/components/Text/index';
 
 // Internal
@@ -9,9 +8,10 @@ import { usePlantStore } from '@/stores';
 
 // External
 import { router } from 'expo-router';
+import { Platform } from 'react-native';
 
 // Component
-export default function OnboardingLastWatered() {
+export default function OnboardingNamePlant() {
   // Hooks - stores
   const { getAllPlants, updatePlant } = usePlantStore();
 
@@ -20,12 +20,11 @@ export default function OnboardingLastWatered() {
   const isIos = Platform.OS === 'ios';
 
   // Handlers
-  const handleSubmit = (lastWatered: string) => {
+  const handleSubmit = async (data: SelectPlantDetailsSubmitData) => {
     if (!plantId) return;
 
-    updatePlant(plantId, {
-      lastWatered
-    });
+    // Update plant data
+    updatePlant(plantId, data);
 
     // Only navigate to notifications page if iOS device
     const pathname = isIos ? '/onboarding/enable-notifications' : '/';
@@ -43,7 +42,7 @@ export default function OnboardingLastWatered() {
 
   return (
     <ScreenContainer padding={false}>
-      <LogLastWatered onSubmit={handleSubmit} title='When was it last watered?' subtitle='This helps us create the ideal watering schedule' submitButtonLabel='Finish' />
+      <SelectPlantDetails onSubmit={handleSubmit} />
     </ScreenContainer>
   );
 }

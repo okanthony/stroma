@@ -1,28 +1,55 @@
-// app/plant/name.tsx
+// Components
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { NamePlant } from '@/pages/NamePlant';
-import { usePlantStore } from '@/stores';
-import { router, useLocalSearchParams } from 'expo-router';
+import { SelectPlantDetails, SelectPlantDetailsSubmitData } from '@/pages/SelectPlantDetails';
 import { Text } from '@/components/Text/index';
 
-export default function AddPlantChooseName() {
+// Internal
+import { useNotificationsStore, usePlantStore } from '@/stores';
+
+// External
+import React from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+
+// Component
+export default function AddPlantDetails() {
+  // Hooks
   const { plantId } = useLocalSearchParams<{ plantId: string }>();
+
+  // Hooks - stores
   const { getPlantById, updatePlant } = usePlantStore();
+  const { arePermissionsGranted, scheduleNotificationsForPlant } = useNotificationsStore();
 
-  const plant = getPlantById(plantId);
+  // Hooks - state
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleSubmit = (data: { name: string; room: string }) => {
+  // Vars
+  const plant = plantId ? getPlantById(plantId) : null;
+  const areNotificationsEnabled = arePermissionsGranted();
+
+  // Handlers
+  const handleSubmit = async (data: SelectPlantDetailsSubmitData) => {
     if (!plantId) return;
 
+    setIsLoading(true);
+
+    // Update plant data
     updatePlant(plantId, {
-      name: data.name,
-      room: data.room
+      ...data,
+      areNotificationsEnabled // Ensure this flag is up to date based on current state of permissions
     });
 
-    router.push({ pathname: '/plant/last-watered', params: { plantId } });
+    // User granted permission for notifications - scheduled notifications
+    if (areNotificationsEnabled) {
+      await scheduleNotificationsForPlant(plantId);
+    }
+
+    router.push({ pathname: '/(tabs)', params: { showWelcomeToast: 'true' } });
+
+    setIsLoading(false);
   };
 
-  if (!plant.id) {
+  // Render
+  if (!plant) {
     return (
       <ScreenContainer>
         <Text>Plant not found</Text>
@@ -32,7 +59,7 @@ export default function AddPlantChooseName() {
 
   return (
     <ScreenContainer padding={false}>
-      <NamePlant plantType={plant.type} onSubmit={handleSubmit} title='Tell us more about your plant' submitButtonLabel='Save' />
+      <SelectPlantDetails isLoading={isLoading} onSubmit={handleSubmit} submitButtonLabel='Save' />
     </ScreenContainer>
   );
 }

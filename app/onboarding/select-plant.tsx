@@ -17,7 +17,7 @@ export default function OnboardingSelectPlant() {
   // Handlers
   const handleSelectPlant = (plantType: PlantType) => {
     addPlant({ type: plantType });
-    router.push('/onboarding/name-plant');
+    router.push('/onboarding/plant-details');
   };
 
   // Render
