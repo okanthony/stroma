@@ -19,7 +19,7 @@ export default function OnboardingLayout() {
     >
       <Stack.Screen name='index' />
       <Stack.Screen name='select-plant' />
-      <Stack.Screen name='name-plant' />
+      <Stack.Screen name='plant-details' />
       <Stack.Screen name='enable-notifications' />
     </Stack>
   );
