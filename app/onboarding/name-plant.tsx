@@ -1,6 +1,6 @@
 // Components
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { NamePlant } from '@/pages/NamePlant';
+import { NamePlant, NamePlantSubmitData } from '@/pages/NamePlant';
 import { Text } from '@/components/Text/index';
 
 // Internal
@@ -8,6 +8,7 @@ import { usePlantStore } from '@/stores';
 
 // External
 import { router } from 'expo-router';
+import { Platform } from 'react-native';
 
 // Component
 export default function OnboardingNamePlant() {
@@ -15,23 +16,23 @@ export default function OnboardingNamePlant() {
   const { getAllPlants, updatePlant } = usePlantStore();
 
   // Vars
-  const plantSelected = getAllPlants()[0];
+  const { id: plantId } = getAllPlants()[0];
+  const isIos = Platform.OS === 'ios';
 
   // Handlers
-  const handleSubmit = (data: { name: string; room: string }) => {
-    if (!plantSelected) return;
+  const handleSubmit = async (data: NamePlantSubmitData) => {
+    if (!plantId) return;
 
-    updatePlant(plantSelected.id, {
-      name: data.name,
-      room: data.room
-    });
+    // Update plant data
+    updatePlant(plantId, data);
 
-    router.push('/onboarding/last-watered');
+    // Only navigate to notifications page if iOS device
+    const pathname = isIos ? '/onboarding/enable-notifications' : '/';
+    router.push({ pathname, params: { plantId, showWelcomeToast: String(!isIos) } });
   };
 
   // Render
-
-  if (!plantSelected) {
+  if (!plantId) {
     return (
       <ScreenContainer>
         <Text>No plant selected. Please go back.</Text>
@@ -41,7 +42,7 @@ export default function OnboardingNamePlant() {
 
   return (
     <ScreenContainer padding={false}>
-      <NamePlant plantType={plantSelected.type} onSubmit={handleSubmit} title='Tell us more about your plant' submitButtonLabel='Continue' />
+      <NamePlant onSubmit={handleSubmit} />
     </ScreenContainer>
   );
 }
