@@ -173,7 +173,6 @@ export default function RootLayout() {
             {/* Add plant flow */}
             <Stack.Screen name='plant/add' options={{ headerShown: false }} />
             <Stack.Screen name='plant/name' options={{ headerShown: false }} />
-            <Stack.Screen name='plant/last-watered' options={{ headerShown: false }} />
 
             {/* Plant details pages */}
             <Stack.Screen name='plant/[id]' options={{ headerShown: false }} />
