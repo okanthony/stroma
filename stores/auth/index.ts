@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Session, User } from '@supabase/supabase-js';
+import { supabase } from '@/clients/supabase';
 
 interface AuthState {
   // Track app hydrated in root layout before rendering UI
@@ -21,7 +22,7 @@ interface AuthState {
   setUser: (user: User | null) => void;
   requestOTP: (email: string) => Promise<void>;
   verifyOTP: (email: string, token: string) => Promise<void>;
-  signOut: () => void;
+  signOut: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -43,23 +44,18 @@ export const useAuthStore = create<AuthState>()(
 
       // signInWithOtp handles both sign in and sign up
       requestOTP: async (email) => {
-        // Prevent supabase client failure if RN's environment is not fully initialized
-        const { supabase } = await import('@/clients/supabase');
-
         set({ isLoading: true, error: null });
 
         const { error } = await supabase.auth.signInWithOtp({ email });
 
         if (error) {
           set({ error: error.message });
+          throw error;
         }
         set({ isLoading: false });
       },
 
       verifyOTP: async (email, token) => {
-        // Prevent supabase client failure if RN's environment is not fully initialized
-        const { supabase } = await import('@/clients/supabase');
-
         set({ isLoading: true, error: null });
 
         const { data, error } = await supabase.auth.verifyOtp({
@@ -70,6 +66,7 @@ export const useAuthStore = create<AuthState>()(
 
         if (error) {
           set({ error: error.message, isLoading: false });
+          throw error;
         } else if (data.session) {
           set({
             session: data.session,
@@ -80,11 +77,16 @@ export const useAuthStore = create<AuthState>()(
       },
 
       signOut: async () => {
-        // Prevent supabase client failure if RN's environment is not fully initialized
-        const { supabase } = await import('@/clients/supabase');
+        set({ isLoading: true, error: null });
 
-        await supabase.auth.signOut();
-        set({ session: null, user: null });
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+          set({ error: error.message, isLoading: false });
+          throw error;
+        } else {
+          set({ isLoading: false });
+        }
       }
     }),
     {
