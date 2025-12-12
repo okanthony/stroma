@@ -10,6 +10,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { toastConfig } from '@/constants/toast';
 import { useAuthStore, useNotificationsStore } from '@/stores';
+import { supabase } from '@/clients/supabase';
 
 // External
 import React from 'react';
@@ -17,7 +18,6 @@ import 'react-native-reanimated';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { setNotificationHandler } from 'expo-notifications';
-import { supabase } from '@/clients/supabase';
 
 // Constants
 const { width, height } = Dimensions.get('window');
@@ -78,8 +78,6 @@ export default function RootLayout() {
       const {
         data: { session }
       } = await supabase.auth.getSession();
-
-      console.log('SESHHH', session);
 
       // Always set explicitly, even if null, to clear any potential stale data
       useAuthStore.getState().setSession(session);
