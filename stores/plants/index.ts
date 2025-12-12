@@ -31,8 +31,8 @@ interface PlantState {
   updatePlant: (id: string, updates: Partial<Omit<Plant, 'id'>>) => void;
   deletePlant: (id: string) => void;
 
-  // TEMP
-  deleteAllPlants: () => void; // ← Add this
+  // Admin
+  clearPlantsStore: () => void;
 }
 
 export const usePlantStore = create<PlantState>()(
@@ -111,8 +111,8 @@ export const usePlantStore = create<PlantState>()(
           plantIds: state.plantIds.filter((plantId) => plantId !== id)
         })),
 
-      // Delete all plants - reset to initial state
-      deleteAllPlants: () => {
+      // Delete all plants data
+      clearPlantsStore: () => {
         set({
           plants: {},
           plantIds: []
