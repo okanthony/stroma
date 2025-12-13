@@ -233,7 +233,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1
   },
-
   emptyState: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -262,10 +261,8 @@ const styles = StyleSheet.create({
 
   sectionContainer: {
     marginBottom: spacing.lg
-    // margin left right 8px or so, not sure why
   },
   sectionTitle: {
-    // paddingHorizontal: spacing.lg,
     marginBottom: spacing.sm
   },
   sectionCard: {
@@ -273,7 +270,6 @@ const styles = StyleSheet.create({
     marginRight: 0,
     marginHorizontal: spacing.md,
     padding: 0, // Override Card's default padding
-    // backgroundColor: colors.neutral[0] // White
     backgroundColor: colors.neutral[50]
   },
   divider: {
