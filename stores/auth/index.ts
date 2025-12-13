@@ -23,11 +23,14 @@ interface AuthState {
   requestOTP: (email: string) => Promise<void>;
   verifyOTP: (email: string, token: string) => Promise<void>;
   signOut: () => Promise<void>;
+
+  // Helpers
+  getUserEmail: () => string;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       // Initial state
       isAppLoaded: false,
       session: null,
@@ -87,7 +90,10 @@ export const useAuthStore = create<AuthState>()(
         } else {
           set({ isLoading: false });
         }
-      }
+      },
+
+      // Helpers
+      getUserEmail: () => get().user?.email || 'No email available'
     }),
     {
       name: 'stroma-store-auth',

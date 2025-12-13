@@ -18,9 +18,9 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Component
-export default function AccountSettingsScreen() {
+export default function SettingsAccount() {
   // Hooks - stores
-  const { user, signOut, isLoading } = useAuthStore();
+  const { getUserEmail, signOut, isLoading } = useAuthStore();
   const { clearPlantsStore } = usePlantStore();
   const { clearNotificationsStore } = useNotificationsStore();
 
@@ -63,9 +63,8 @@ export default function AccountSettingsScreen() {
     // User did not yet generate deletion email - open email client
     if (!generatedDeletionEmail) {
       try {
-        const email = user?.email;
         const subject = 'Account Deletion Request';
-        const body = `Please delete my account: ${email}`;
+        const body = `Please delete my account: ${getUserEmail()}`;
 
         // Open email client with deletion request
         await Linking.openURL(`mailto:support@stroma.app?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
@@ -109,13 +108,13 @@ export default function AccountSettingsScreen() {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <Column gap='xl'>
           {/* Floating Back Button */}
-          <Pressable style={styles.backButton} onPress={() => router.push('/account')}>
+          <Pressable style={styles.backButton} onPress={() => router.push('/settings')}>
             <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
           </Pressable>
 
           {/* Page Heading */}
           <Text variant='heading' weight='bold'>
-            Account Settings
+            Account
           </Text>
 
           {/* Email Display */}
@@ -124,7 +123,7 @@ export default function AccountSettingsScreen() {
               Email
             </Text>
             <Text variant='body' style={{ color: textColor }}>
-              {user?.email || 'No email available'}
+              {getUserEmail()}
             </Text>
           </Column>
 

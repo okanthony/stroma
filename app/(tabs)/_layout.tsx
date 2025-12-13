@@ -42,14 +42,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='account'
+        name='settings'
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <Icon size={28} name='person.fill' color={color} />
         }}
       />
       <Tabs.Screen
-        name='account/details'
+        name='settings/account'
         options={{
           href: null // This hides it from tabs
         }}
