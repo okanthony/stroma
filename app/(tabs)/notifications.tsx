@@ -8,6 +8,7 @@ import { Modal } from '@/components/Modal';
 import { Column } from '@/components/Column/index';
 import Toast from 'react-native-toast-message';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Callout, CalloutTitle } from './notifications.components';
 
 // Internal
 import { usePlantStore, useNotificationsStore } from '@/stores';
@@ -18,7 +19,6 @@ import { formatTitleCase } from '@/utils/formatTitleCase';
 // External
 import React from 'react';
 import { format } from 'date-fns';
-import { Callout, CalloutTitle } from './notifications.components';
 
 // Component
 export default function NotificationsScreen() {
