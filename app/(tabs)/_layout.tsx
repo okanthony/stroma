@@ -49,7 +49,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='account/details'
+        name='settings/account'
         options={{
           href: null // This hides it from tabs
         }}
