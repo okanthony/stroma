@@ -108,7 +108,7 @@ export default function SettingsAccount() {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <Column gap='xl'>
           {/* Floating Back Button */}
-          <Pressable style={styles.backButton} onPress={() => router.push('/account')}>
+          <Pressable style={styles.backButton} onPress={() => router.push('/settings')}>
             <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
           </Pressable>
 

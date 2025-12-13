@@ -53,7 +53,7 @@ export default function Settings() {
               Account
             </Text>
 
-            <Pressable onPress={() => router.push('/account/details')} accessibilityRole='button' accessibilityLabel='View account settings'>
+            <Pressable onPress={() => router.push('/settings/account')} accessibilityRole='button' accessibilityLabel='View account settings'>
               <Card style={styles.card}>
                 <Row align='center' justify='space-between'>
                   <Column gap='xs'>
