@@ -17,7 +17,7 @@ import appConfig from '@/app.json';
 import { router } from 'expo-router';
 
 // Components
-export default function Account() {
+export default function Settings() {
   // Hooks - stores
   const { getUserEmail } = useAuthStore();
 
