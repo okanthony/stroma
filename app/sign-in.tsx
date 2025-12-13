@@ -1,12 +1,13 @@
 // Components
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, Linking, Image } from 'react-native';
 import { ScreenContainer } from '@/components/ScreenContainer';
 import { Field } from '@/components/Field';
 import { FieldError } from '@/components/FieldError';
 import { FieldLabel } from '@/components/FieldLabel';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
-import { Column } from '@/components/Column/index';
+import { Column } from '@/components/Column';
+import { Text } from '@/components/Text';
 
 // Internal
 import { borderRadius, colors, spacing, typography } from '@/constants/design-tokens';
@@ -17,6 +18,9 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { router } from 'expo-router';
 import { InputCode } from '@/components/InputCode';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import Toast from 'react-native-toast-message';
 
 // Types
 interface SignInFormData {
@@ -26,6 +30,19 @@ interface CodeFormData {
   code: string;
 }
 
+// Constants
+const emailSchema = z.object({
+  email: z.email('Please enter a valid email address')
+});
+
+const codeSchema = z.object({
+  code: z
+    .string()
+    .min(1, 'Code is required')
+    .length(8, 'Please enter the full 8-digit code')
+    .regex(/^\d{8}$/, 'Code must be 8 digits')
+});
+
 // Component
 export default function SignIn() {
   // Hooks - stores
@@ -34,13 +51,35 @@ export default function SignIn() {
   // Hooks - state
   const [step, setStep] = React.useState<'email' | 'code'>('email');
   const [submittedEmail, setSubmittedEmail] = React.useState('');
+  const [resendCooldown, setResendCooldown] = React.useState(0);
 
-  // Hooks
+  // Hooks - effects
+  // Manage cooldown after resending OTP as Supabase requires 60s before next code can be requested
+  React.useEffect(() => {
+    if (resendCooldown > 0) {
+      const timer = setTimeout(() => {
+        setResendCooldown(resendCooldown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [resendCooldown]);
+
+  // Start cooldown when code form is displayed
+  React.useEffect(() => {
+    if (step === 'code') {
+      setResendCooldown(60);
+    }
+  }, [step]);
+
+  // Hooks - forms
   const {
     control: controlEmail,
     handleSubmit: handleSubmitEmail,
     formState: { errors: formErrorsEmail }
   } = useForm<SignInFormData>({
+    resolver: zodResolver(emailSchema),
+    mode: 'onSubmit', // Only run first client side validation on submit
+    reValidateMode: 'onChange', // Fix errors as user types for immediate feedback
     defaultValues: {
       email: ''
     }
@@ -52,6 +91,8 @@ export default function SignIn() {
     formState: { errors: formErrorsCode },
     setValue
   } = useForm<CodeFormData>({
+    resolver: zodResolver(codeSchema),
+    mode: 'onSubmit', // Only run first client side validation on submit
     defaultValues: {
       code: ''
     }
@@ -60,7 +101,7 @@ export default function SignIn() {
   // Vars
   const inputNameEmail = 'email';
   const inputNameCode = 'code';
-  const title = step === 'email' ? 'Welcome to Stroma' : 'Check your email';
+  const title = step === 'email' ? "Let's get growing" : 'Check your email';
   const subtitle = step === 'email' ? 'Enter your email to get started' : `We sent a verification code to ${submittedEmail}`;
 
   // Handlers
@@ -91,6 +132,36 @@ export default function SignIn() {
     }
   };
 
+  const handleResendCodeCtaOnClick = async () => {
+    try {
+      await requestOTP(submittedEmail);
+
+      // Start 60 second countdown
+      setResendCooldown(60);
+
+      // Show success toast
+      Toast.show({
+        type: 'success',
+        text1: 'Code sent!',
+        text2: 'Check your email for a new code',
+        position: 'bottom',
+        visibilityTime: 3500
+      });
+    } catch (error) {
+      console.error('Resend code error:', error);
+      // Errors already displayed in callout above form
+    }
+  };
+
+  const handleChangeEmailCtaOnClick = () => {
+    setResendCooldown(0); // Reset countdown
+    setStep('email');
+  };
+
+  // Vars
+  const ctaResendCodeIsDisabled = isLoading || resendCooldown > 0;
+  const ctaResendCodeLabel = resendCooldown > 0 ? `Resend code in ${resendCooldown}s` : "Didn't receive code? Resend it";
+
   // Utils
   const renderForm = () => {
     if (step === 'email') {
@@ -99,19 +170,12 @@ export default function SignIn() {
           <Controller
             control={controlEmail}
             name={inputNameEmail}
-            rules={{
-              required: 'Email is required',
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: 'Please enter a valid email address'
-              }
-            }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Field error={Boolean(formErrorsEmail[inputNameEmail])}>
                 <FieldLabel>Email</FieldLabel>
                 <Input
                   type='email'
-                  placeholder='you@example.com'
+                  placeholder='you@plantexpert.com'
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
@@ -130,6 +194,20 @@ export default function SignIn() {
           <Button onPress={handleSubmitEmail(onSubmitEmail)} loading={isLoading}>
             Get started
           </Button>
+
+          {/* Terms acceptance text */}
+          <View style={styles.termsContainer}>
+            <Text variant='caption' style={styles.termsText}>
+              By continuing, you agree to our{' '}
+              <Text variant='caption' style={styles.termsLink} onPress={() => Linking.openURL('https://venturespringmedia.com/stroma/privacy-policy')} accessibilityRole='link'>
+                Privacy Policy
+              </Text>{' '}
+              and{' '}
+              <Text variant='caption' style={styles.termsLink} onPress={() => Linking.openURL('https://venturespringmedia.com/stroma/terms-of-service')} accessibilityRole='link'>
+                Terms of Service
+              </Text>
+            </Text>
+          </View>
         </>
       );
     } else if (step === 'code') {
@@ -138,17 +216,6 @@ export default function SignIn() {
           <Controller
             control={controlCode}
             name={inputNameCode}
-            rules={{
-              required: 'Code is required',
-              minLength: {
-                value: 8,
-                message: 'Please enter the full 8-digit code'
-              },
-              pattern: {
-                value: /^\d{8}$/,
-                message: 'Code must be 8 digits'
-              }
-            }}
             render={({ field: { onBlur, value } }) => {
               return (
                 <Field error={Boolean(formErrorsCode[inputNameCode])}>
@@ -160,8 +227,8 @@ export default function SignIn() {
                     value={value || ''}
                     onChangeText={(newValue) => {
                       // InputCode is numerous text inputs to facilitate paste functionality, but this breaks refs in react-hook-form
-                      // Manually call setValue instead of passing
-                      setValue('code', newValue, { shouldValidate: true }); // Use setValue instead
+                      // Manually call setValue instead of passing onChange
+                      setValue('code', newValue, { shouldValidate: false });
                     }}
                     error={Boolean(formErrorsCode[inputNameCode])}
                   />
@@ -175,12 +242,12 @@ export default function SignIn() {
             Verify
           </Button>
 
-          <Button variant='ghost' onPress={() => setStep('email')}>
-            ← Change email
+          <Button disabled={ctaResendCodeIsDisabled} variant='ghost' onPress={handleResendCodeCtaOnClick}>
+            {ctaResendCodeLabel}
           </Button>
 
-          <Button variant='ghost' onPress={() => null}>
-            Didn't receive it? Resend code
+          <Button disabled={isLoading} variant='ghost' onPress={handleChangeEmailCtaOnClick}>
+            Use a different email
           </Button>
         </>
       );
@@ -197,14 +264,22 @@ export default function SignIn() {
           <Column gap='lg'>
             {/* Header */}
             <Column gap='sm'>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.subtitle}>{subtitle}</Text>
+              {/* Logo */}
+              <View style={styles.logoContainer}>
+                <Image source={require('@/assets/images/logo-transparent.png')} style={styles.logo} resizeMode='contain' />
+              </View>
+
+              <Text variant='heading' style={styles.title}>
+                {title}
+              </Text>
+              <Text variant='body' style={styles.subtitle}>
+                {subtitle}
+              </Text>
             </Column>
 
             {/* Form */}
             <Column gap='lg'>
-              {' '}
-              {/* Store error - shows server errors */}
+              {/* Server errors */}
               {authError && !isLoading && (
                 <View style={styles.authErrorContainer}>
                   <Text style={styles.authErrorText}>{authError}</Text>
@@ -228,15 +303,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: spacing.xl
   },
+  logoContainer: {
+    alignItems: 'center'
+  },
+  logo: {
+    width: 100,
+    height: 120
+  },
   title: {
-    fontSize: typography.sizes['3xl'],
-    fontWeight: typography.weights.bold,
-    color: colors.neutral[900],
     textAlign: 'center'
   },
   subtitle: {
-    fontSize: typography.sizes.base,
-    color: colors.neutral[600],
     textAlign: 'center'
   },
   authErrorContainer: {
@@ -250,5 +327,18 @@ const styles = StyleSheet.create({
     color: colors.error,
     textAlign: 'center',
     fontWeight: typography.weights.medium
+  },
+  termsContainer: {
+    marginTop: spacing.md,
+    alignItems: 'center'
+  },
+  termsText: {
+    textAlign: 'center',
+    color: colors.neutral[600],
+    lineHeight: 20
+  },
+  termsLink: {
+    color: colors.primary[500],
+    textDecorationLine: 'underline'
   }
 });
