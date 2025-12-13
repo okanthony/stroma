@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: spacing.md,
+    top: spacing.lg,
     left: spacing.lg,
     width: 40,
     height: 40,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   },
   editButton: {
     position: 'absolute',
-    top: spacing.md,
+    top: spacing.lg,
     right: spacing.lg,
     width: 40,
     height: 40,

@@ -1,34 +1,64 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+// Components
+import { View, StyleSheet, Pressable } from 'react-native';
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { Card } from '@/components/Card/index';
 import { Column } from '@/components/Column/index';
-import { Row } from '@/components/Row/index';
 import { Icon } from '@/components/Icon';
-import { colors, typography, spacing } from '@/constants/design-tokens';
-import { usePlantStore } from '@/stores';
-import { ThemedInput } from '@/components/themed-input';
-import Toast from 'react-native-toast-message';
+import { Field } from '@/components/Field';
+import { FieldLabel } from '@/components/FieldLabel';
+import { FieldError } from '@/components/FieldError';
+import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
+import { Text } from '@/components/Text';
+import Toast from 'react-native-toast-message';
 
+// Internal
+import { colors, shadows, spacing } from '@/constants/design-tokens';
+import { usePlantStore } from '@/stores';
+
+// External
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { router, useLocalSearchParams } from 'expo-router';
+import { z } from 'zod';
+
+// Types
+type PlantNameFormData = z.infer<typeof plantNameSchema>;
+
+// Schemas
+const plantNameSchema = z.object({
+  name: z.string().min(1, 'Plant name is required').max(50, 'Plant name must be 50 characters or less')
+});
+
+// Component
 export default function EditPlantName() {
   // Hooks
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  // Stores
+  // Hooks - stores
   const { getPlantById, updatePlant } = usePlantStore();
 
   // Vars
   const plant = getPlantById(id);
-  const [name, setName] = useState(plant?.name || '');
-  const isButtonSubmitDisabled = name === plant.name;
+
+  // Hooks - form
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isDirty }
+  } = useForm<PlantNameFormData>({
+    resolver: zodResolver(plantNameSchema),
+    mode: 'onSubmit', // Only run first client side validation on submit
+    defaultValues: {
+      name: plant?.name || ''
+    }
+  });
 
   // Handlers
-  const onButtonSubmitClick = () => {
+  const onSubmit = (data: PlantNameFormData) => {
     // Update plant
     updatePlant(id, {
-      name
+      name: data.name
     });
 
     // Navigate to plant details page
@@ -43,43 +73,50 @@ export default function EditPlantName() {
     });
   };
 
-  // Render
+  // Render - Plant not found
   if (!plant) {
     return (
       <ScreenContainer style={styles.container}>
-        <Text>Plant not found</Text>
+        <Text variant='body'>Plant not found</Text>
       </ScreenContainer>
     );
   }
 
+  // Render
   return (
-    <ScreenContainer style={styles.container}>
+    <ScreenContainer>
+      {/* Back button */}
+      <Pressable onPress={() => router.back()} style={styles.backButton}>
+        <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
+      </Pressable>
+
       {/* Header */}
-      <Row align='center' justify='space-between' style={styles.header}>
-        <Pressable onPress={() => router.back()} style={styles.backButton}>
-          <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
-        </Pressable>
-      </Row>
+      <Text variant='heading' style={styles.title}>
+        Edit name
+      </Text>
 
-      <Text style={styles.title}>Edit name</Text>
-
-      <Column gap='md' style={styles.content}>
-        {/* Name Input Card */}
-        <Card style={styles.card}>
-          <Column gap='sm'>
-            <Row align='center' justify='space-between'>
-              <Text style={styles.cardLabel}>Name</Text>
-              <Text style={styles.characterCount}>{name.length}/50</Text>
-            </Row>
-            <ThemedInput style={styles.input} value={name} onChangeText={setName} placeholder='Type name here...' placeholderTextColor={colors.neutral[400]} maxLength={50} />
-          </Column>
-        </Card>
-      </Column>
+      {/* Content */}
+      <View style={styles.content}>
+        <Column gap='lg'>
+          {/* Name Field */}
+          <Controller
+            control={control}
+            name='name'
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Field error={Boolean(errors.name)}>
+                <FieldLabel>Name</FieldLabel>
+                <Input value={value} onChangeText={onChange} onBlur={onBlur} placeholder='Ex: Keanu Leaves' maxLength={50} error={Boolean(errors.name)} autoCapitalize='words' autoCorrect={false} />
+                <FieldError>{errors.name?.message}</FieldError>
+              </Field>
+            )}
+          />
+        </Column>
+      </View>
 
       {/* CTA */}
       <View style={styles.buttonContainer}>
-        <Button variant='primary' disabled={isButtonSubmitDisabled} onPress={onButtonSubmitClick}>
-          Delete plant
+        <Button variant='primary' disabled={!isDirty} onPress={handleSubmit(onSubmit)}>
+          Save
         </Button>
       </View>
     </ScreenContainer>
@@ -88,7 +125,15 @@ export default function EditPlantName() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFAE9'
+    flex: 1
+  },
+  buttonContainer: {
+    paddingBottom: spacing.sm
+  },
+  title: {
+    color: colors.neutral[900],
+    marginBottom: spacing.xl,
+    marginTop: spacing.xl
   },
   header: {
     paddingHorizontal: spacing.md,
@@ -96,41 +141,16 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg
   },
   backButton: {
-    padding: spacing.sm
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.neutral[0],
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...shadows.md
   },
-  title: {
-    fontSize: typography.sizes['2xl'],
-    fontWeight: typography.weights.bold,
-    color: colors.neutral[900],
-    paddingHorizontal: spacing.md,
-    marginBottom: spacing.lg
-  },
+
   content: {
-    paddingHorizontal: spacing.md,
     flex: 1
-  },
-  card: {
-    padding: spacing.md
-  },
-  cardLabel: {
-    fontSize: typography.sizes.sm,
-    fontWeight: typography.weights.semibold,
-    color: colors.neutral[700]
-  },
-  characterCount: {
-    fontSize: typography.sizes.sm,
-    color: colors.neutral[400]
-  },
-  input: {
-    backgroundColor: colors.primary[50],
-    borderRadius: 12,
-    padding: spacing.md,
-    fontSize: typography.sizes.base,
-    color: colors.neutral[900],
-    minHeight: 50
-  },
-  buttonContainer: {
-    padding: spacing.md,
-    paddingBottom: spacing.xl
   }
 });

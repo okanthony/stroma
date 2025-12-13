@@ -6,10 +6,10 @@ import { Icon } from '@/components/Icon';
 import { Row } from '@/components/Row/index';
 import { ScreenContainer } from '@/components/ScreenContainer';
 import { Switch } from '@/components/Switch';
-import { Text, StyleSheet, Pressable, View, Alert, Platform } from 'react-native';
+import { Text, StyleSheet, Pressable, View, Alert, Platform, Linking } from 'react-native';
 
 // Internal
-import { colors, typography, spacing } from '@/constants/design-tokens';
+import { colors, typography, spacing, shadows } from '@/constants/design-tokens';
 import { useNotificationsStore, usePlantStore } from '@/stores';
 import { formatTitleCase } from '@/utils/formatTitleCase';
 
@@ -91,6 +91,20 @@ export default function EditPlantDetails() {
     }
   };
 
+  const handleAllowNotificationsCtaOnClick = async () => {
+    try {
+      await Linking.openSettings();
+    } catch (error) {
+      console.error('Failed to open settings:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Could not open system settings',
+        text2: 'Please open Settings manually',
+        position: 'bottom'
+      });
+    }
+  };
+
   const handleOnDeleteButtonClick = () => {
     if (Platform.OS === 'web') {
       alert('Delete functionality is only available on mobile devices');
@@ -147,7 +161,7 @@ export default function EditPlantDetails() {
         return (
           <>
             <Text style={[styles.label, styles.flexText]}>Notifications are disabled on your device</Text>
-            <Pressable>
+            <Pressable onPress={handleAllowNotificationsCtaOnClick}>
               <Text style={styles.allowText}>Allow</Text>
             </Pressable>
           </>
@@ -166,21 +180,20 @@ export default function EditPlantDetails() {
   // Render
   if (!plant) {
     return (
-      <ScreenContainer style={styles.container}>
+      <ScreenContainer>
         <Text>Plant not found</Text>
       </ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer style={styles.container}>
-      {/* Header */}
-      <Row align='center' justify='space-between' style={styles.header}>
-        <Pressable onPress={() => router.dismissTo(`/plant/${id}`)} style={styles.backButton}>
-          <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
-        </Pressable>
-      </Row>
+    <ScreenContainer>
+      {/* Back button */}
+      <Pressable onPress={() => router.dismissTo(`/plant/${id}`)} style={styles.backButton}>
+        <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
+      </Pressable>
 
+      {/* Header */}
       <Text style={styles.title}>Edit plant details</Text>
 
       <Column gap='md' style={styles.content}>
@@ -216,15 +229,13 @@ export default function EditPlantDetails() {
             <Text style={styles.cardLabel}>Reminders</Text>
             <Row align='center' justify='space-between'>
               {renderNotificationsCard()}
-              {/* <Text style={styles.label}>{getNotificationsToggleLabel()}</Text>
-              <Switch checked={notificationsToggle} disabled={platformNotIos} onCheckedChange={handleOnNotificationsToggleClick} /> */}
             </Row>
           </Column>
         </Card>
       </Column>
 
       {/* Delete Button */}
-      <View style={styles.deleteButtonContainer}>
+      <View style={styles.buttonContainer}>
         <Button variant='destructive' onPress={handleOnDeleteButtonClick} icon='trash'>
           Delete plant
         </Button>
@@ -234,44 +245,42 @@ export default function EditPlantDetails() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFAE9'
-  },
   header: {
     paddingHorizontal: spacing.md,
     paddingTop: spacing.md,
     marginBottom: spacing.lg
   },
   backButton: {
-    padding: spacing.sm
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.neutral[0],
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...shadows.md
   },
   title: {
-    fontSize: typography.sizes['3xl'], // Changed from '2xl' to '3xl' (30px)
+    fontSize: typography.sizes['3xl'],
     fontWeight: typography.weights.bold,
     color: colors.neutral[900],
-    paddingHorizontal: spacing.md,
-    marginBottom: spacing.xl // Changed from lg to xl for more space
+    marginBottom: spacing.xl,
+    marginTop: spacing.xl
   },
   content: {
-    paddingHorizontal: spacing.md,
     flex: 1
   },
   card: {
-    padding: spacing.lg, // Changed from md to lg for more breathing room
-    backgroundColor: colors.neutral[0] // Override the theme color
+    padding: spacing.lg,
+    backgroundColor: colors.neutral[50]
   },
   cardLabel: {
-    fontSize: typography.sizes.lg, // Changed from sm to lg (18px)
+    fontSize: typography.sizes.lg,
     fontWeight: typography.weights.semibold,
-    color: colors.neutral[900] // Changed from 700 to 900 for darker text
+    color: colors.neutral[900]
   },
   cardValue: {
     fontSize: typography.sizes.base,
-    color: colors.neutral[600] // Keep as secondary text color
-  },
-  deleteButtonContainer: {
-    padding: spacing.md,
-    paddingBottom: spacing.xl
+    color: colors.neutral[600]
   },
   // Switch
   label: {
@@ -279,18 +288,19 @@ const styles = StyleSheet.create({
     color: colors.neutral[900]
   },
   notificationsEnablePermissionContainer: {
-    // padding: spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm
   },
   flexText: {
-    flex: 1, // Takes up remaining space, prevents overflow
-    marginRight: spacing.sm // Gap before button/switch
+    flex: 1,
+    marginRight: spacing.sm
   },
   allowText: {
     fontSize: typography.sizes.base,
     fontWeight: typography.weights.semibold
-    // color: colors.error
+  },
+  buttonContainer: {
+    paddingBottom: spacing.sm
   }
 });

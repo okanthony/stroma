@@ -4,7 +4,6 @@ import { getImageByPlantType } from '@/utils/getImageByPlantType';
 import { Image } from 'expo-image';
 import { spacing, colors } from '@/constants/design-tokens';
 import { router } from 'expo-router';
-import { useThemeColor } from '@/hooks/use-theme-color';
 import { Icon } from '@/components/Icon';
 import { PLANT_LIST_DATA, SelectPlantTypeProps } from './data';
 
