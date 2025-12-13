@@ -18,7 +18,7 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Component
-export default function AccountSettingsScreen() {
+export default function SettingsAccount() {
   // Hooks - stores
   const { getUserEmail, signOut, isLoading } = useAuthStore();
   const { clearPlantsStore } = usePlantStore();
