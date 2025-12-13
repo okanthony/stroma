@@ -5,16 +5,16 @@ import { Text } from '@/components/Text';
 import { Icon } from '@/components/Icon';
 import { Row } from '@/components/Row';
 import { ScreenContainer } from '@/components/ScreenContainer';
+import { Card } from '@/components/Card';
 
 // Internal
 import { colors, spacing, typography, borderRadius } from '@/constants/design-tokens';
+import { useAuthStore } from '@/stores';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import appConfig from '@/app.json';
 
 // Exteneral
 import { router } from 'expo-router';
-import { Card } from '@/components/Card';
-import { useAuthStore } from '@/stores';
 
 // Components
 export default function Account() {
@@ -22,30 +22,6 @@ export default function Account() {
   const { getUserEmail } = useAuthStore();
 
   // Hooks - custom
-  const cardBg = useThemeColor(
-    {
-      light: colors.neutral[0],
-      dark: colors.neutral[800]
-    },
-    'background'
-  );
-
-  const cardBorder = useThemeColor(
-    {
-      light: colors.neutral[200],
-      dark: colors.neutral[700]
-    },
-    'border'
-  );
-
-  const textColor = useThemeColor(
-    {
-      light: colors.neutral[900],
-      dark: colors.neutral[100]
-    },
-    'text'
-  );
-
   const subtextColor = useThemeColor(
     {
       light: colors.neutral[600],
