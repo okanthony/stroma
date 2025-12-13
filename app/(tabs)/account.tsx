@@ -13,9 +13,14 @@ import appConfig from '@/app.json';
 
 // Exteneral
 import { router } from 'expo-router';
+import { Card } from '@/components/Card';
+import { useAuthStore } from '@/stores';
 
 // Components
 export default function Account() {
+  // Hooks - stores
+  const { getUserEmail } = useAuthStore();
+
   // Hooks - custom
   const cardBg = useThemeColor(
     {
@@ -69,27 +74,19 @@ export default function Account() {
           {/* Account Details section */}
           <Column gap='md'>
             <Text variant='subheading' weight='semibold'>
-              Account Details
+              Account
             </Text>
 
-            <Pressable
-              style={[
-                styles.card,
-                {
-                  backgroundColor: cardBg,
-                  borderColor: cardBorder
-                }
-              ]}
-              onPress={() => router.push('/account/details')}
-              accessibilityRole='button'
-              accessibilityLabel='View account settings'
-            >
-              <Row align='center' justify='space-between'>
-                <Text variant='body' style={{ color: textColor }}>
-                  Account Details
-                </Text>
-                <Icon name='chevron.right' size={20} color={subtextColor} />
-              </Row>
+            <Pressable onPress={() => router.push('/account/details')} accessibilityRole='button' accessibilityLabel='View account settings'>
+              <Card style={styles.card}>
+                <Row align='center' justify='space-between'>
+                  <Column gap='xs'>
+                    <Text style={styles.cardLabel}>Email</Text>
+                    <Text style={styles.cardValue}>{getUserEmail()}</Text>
+                  </Column>
+                  <Icon name='chevron.right' size={20} color={colors.neutral[400]} />
+                </Row>
+              </Card>
             </Pressable>
           </Column>
 
@@ -132,13 +129,13 @@ export default function Account() {
               Legal
             </Text>
 
-            <Pressable onPress={() => handleLegalLink('https://venturespringmedia.com/privacy')} accessibilityRole='link' accessibilityLabel='Open privacy policy'>
+            <Pressable onPress={() => handleLegalLink('https://venturespringmedia.com/stroma/privacy-policy')} accessibilityRole='link' accessibilityLabel='Open privacy policy'>
               <Text variant='body' style={[styles.link, { color: colors.primary[500] }]}>
                 Privacy Policy
               </Text>
             </Pressable>
 
-            <Pressable onPress={() => handleLegalLink('https://venturespringmedia.com/terms')} accessibilityRole='link' accessibilityLabel='Open terms of service'>
+            <Pressable onPress={() => handleLegalLink('https://venturespringmedia.com/stroma/terms-of-service')} accessibilityRole='link' accessibilityLabel='Open terms of service'>
               <Text variant='body' style={[styles.link, { color: colors.primary[500] }]}>
                 Terms of Service
               </Text>
@@ -165,16 +162,24 @@ const styles = StyleSheet.create({
     flex: 1
   },
   card: {
-    padding: spacing.md,
+    padding: spacing.lg,
     borderRadius: borderRadius.md,
     borderWidth: 1
+  },
+  cardLabel: {
+    fontSize: typography.sizes.lg,
+    fontWeight: typography.weights.semibold,
+    color: colors.neutral[900]
+  },
+  cardValue: {
+    fontSize: typography.sizes.base,
+    color: colors.neutral[600]
   },
   link: {
     fontSize: typography.sizes.base,
     fontWeight: typography.weights.medium
   },
   versionContainer: {
-    padding: spacing.md,
     alignItems: 'center',
     justifyContent: 'center'
   }
