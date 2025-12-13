@@ -1,41 +1,65 @@
 // Components
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { Card } from '@/components/Card/index';
 import { Column } from '@/components/Column/index';
-import { Row } from '@/components/Row/index';
 import { Icon } from '@/components/Icon';
-import Toast from 'react-native-toast-message';
-import { ThemedDropdown } from '@/components/themed-dropdown';
+import { Field } from '@/components/Field';
+import { FieldLabel } from '@/components/FieldLabel';
+import { FieldError } from '@/components/FieldError';
+import { Select } from '@/components/Select';
 import { Button } from '@/components/Button';
+import { Text } from '@/components/Text';
+import Toast from 'react-native-toast-message';
 
 // Internal
-import { colors, typography, spacing } from '@/constants/design-tokens';
+import { colors, shadows, spacing } from '@/constants/design-tokens';
 import { usePlantStore } from '@/stores';
 import { getRoomDropdownOptions } from '@/utils/getRoomDropdownOptions';
 
 // External
-import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+// Types
+type PlantLocationFormData = z.infer<typeof plantLocationSchema>;
+
+// Schemas
+const plantLocationSchema = z.object({
+  room: z.string().min(1, 'Please select a room')
+});
 
 // Component
 export default function EditPlantLocation() {
   // Hooks
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  // Stores
+  // Hooks - stores
   const { getPlantById, updatePlant } = usePlantStore();
 
   // Vars
   const plant = getPlantById(id);
-  const [room, setRoom] = React.useState(plant.room || '');
-  const isButtonSubmitDisabled = room === plant.room;
+
+  // Hooks - form
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isDirty }
+  } = useForm<PlantLocationFormData>({
+    resolver: zodResolver(plantLocationSchema),
+    defaultValues: {
+      room: plant?.room || ''
+    },
+    mode: 'onSubmit'
+  });
 
   // Handlers
-  const onButtonSubmitClick = () => {
+  const onSubmit = (data: PlantLocationFormData) => {
     // Update plant
     updatePlant(id, {
-      room
+      room: data.room
     });
 
     // Navigate to plant details page
@@ -50,48 +74,50 @@ export default function EditPlantLocation() {
     });
   };
 
-  // Render
+  // Render - Plant not found
   if (!plant) {
     return (
       <ScreenContainer style={styles.container}>
-        <Text>Plant not found</Text>
+        <Text variant='body'>Plant not found</Text>
       </ScreenContainer>
     );
   }
 
+  // Render
   return (
-    <ScreenContainer style={styles.container}>
+    <ScreenContainer>
+      {/* Back button */}
+      <Pressable onPress={() => router.back()} style={styles.backButton}>
+        <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
+      </Pressable>
+
       {/* Header */}
-      <Row align='center' justify='space-between' style={styles.header}>
-        <Pressable onPress={() => router.back()} style={styles.backButton}>
-          <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
-        </Pressable>
-      </Row>
+      <Text variant='heading' style={styles.title}>
+        Edit room
+      </Text>
 
-      <Text style={styles.title}>Edit room</Text>
-
-      <Column gap='md' style={styles.content}>
-        <Card style={styles.card}>
-          <Column gap='sm'>
-            <Row align='center' justify='space-between'>
-              <Text style={styles.cardLabel}>Room</Text>
-            </Row>
-
-            <ThemedDropdown
-              options={getRoomDropdownOptions()}
-              value={room}
-              onValueChange={setRoom}
-              placeholder='Select a room'
-              variant='outlined'
-              accessibilityLabel='Select which room your plant is located'
-            />
-          </Column>
-        </Card>
-      </Column>
+      {/* Content */}
+      <View style={styles.content}>
+        <Column gap='lg'>
+          {/* Room Field */}
+          <Controller
+            control={control}
+            name='room'
+            render={({ field: { onChange, value } }) => (
+              <Field error={Boolean(errors.room)}>
+                <FieldLabel>Room</FieldLabel>
+                <Select value={value} onValueChange={onChange} options={getRoomDropdownOptions()} placeholder='Select a room' error={Boolean(errors.room)} />
+                <FieldError>{errors.room?.message}</FieldError>
+              </Field>
+            )}
+          />
+        </Column>
+      </View>
 
       {/* CTA */}
+
       <View style={styles.buttonContainer}>
-        <Button variant='primary' disabled={isButtonSubmitDisabled} onPress={onButtonSubmitClick}>
+        <Button variant='primary' disabled={!isDirty} onPress={handleSubmit(onSubmit)}>
           Save
         </Button>
       </View>
@@ -101,7 +127,7 @@ export default function EditPlantLocation() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFAE9'
+    flex: 1
   },
   header: {
     paddingHorizontal: spacing.md,
@@ -109,37 +135,23 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg
   },
   backButton: {
-    padding: spacing.sm
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.neutral[0],
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...shadows.md
   },
   title: {
-    fontSize: typography.sizes['2xl'],
-    fontWeight: typography.weights.bold,
     color: colors.neutral[900],
-    paddingHorizontal: spacing.md,
-    marginBottom: spacing.lg
+    marginBottom: spacing.xl,
+    marginTop: spacing.xl
   },
   content: {
-    paddingHorizontal: spacing.md,
     flex: 1
   },
-  card: {
-    padding: spacing.md
-  },
-  cardLabel: {
-    fontSize: typography.sizes.sm,
-    fontWeight: typography.weights.semibold,
-    color: colors.neutral[700]
-  },
-  input: {
-    backgroundColor: colors.primary[50],
-    borderRadius: 12,
-    padding: spacing.md,
-    fontSize: typography.sizes.base,
-    color: colors.neutral[900],
-    minHeight: 50
-  },
   buttonContainer: {
-    padding: spacing.md,
-    paddingBottom: spacing.xl
+    paddingBottom: spacing.sm
   }
 });
