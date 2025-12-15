@@ -88,7 +88,7 @@ export default function SignIn() {
   const {
     control: controlCode,
     handleSubmit: handleSubmitCode,
-    formState: { errors: formErrorsCode },
+    formState: { errors: formErrorsCode, isSubmitted },
     setValue
   } = useForm<CodeFormData>({
     resolver: zodResolver(codeSchema),
@@ -228,7 +228,8 @@ export default function SignIn() {
                     onChangeText={(newValue) => {
                       // InputCode is numerous text inputs to facilitate paste functionality, but this breaks refs in react-hook-form
                       // Manually call setValue instead of passing onChange
-                      setValue('code', newValue, { shouldValidate: false });
+                      // Only validate input once form submitted, so user doesn't get premature errors befor submission
+                      setValue('code', newValue, { shouldValidate: isSubmitted });
                     }}
                     error={Boolean(formErrorsCode[inputNameCode])}
                   />
@@ -278,7 +279,7 @@ export default function SignIn() {
             </Column>
 
             {/* Form */}
-            <Column gap='lg'>
+            <Column style={styles.formContainer}>
               {/* Server errors */}
               {authError && !isLoading && (
                 <View style={styles.authErrorContainer}>
@@ -315,6 +316,9 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     textAlign: 'center'
+  },
+  formContainer: {
+    gap: 12
   },
   authErrorContainer: {
     backgroundColor: colors.error + '10', // 10% opacity
