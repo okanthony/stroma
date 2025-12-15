@@ -137,7 +137,7 @@ export default function PlantDetails() {
         <LinearGradient colors={['rgba(0, 0, 0, 0.3)', 'transparent']} style={styles.gradientTop} />
 
         {/* Floating Back Button */}
-        <Pressable style={styles.backButton} onPress={() => router.dismissTo('/')}>
+        <Pressable style={styles.backButton} onPress={() => router.back()}>
           <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
         </Pressable>
 
