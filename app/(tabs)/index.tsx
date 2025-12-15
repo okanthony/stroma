@@ -11,7 +11,7 @@ import { ScreenContainer } from '@/components/ScreenContainer';
 // Internal
 import { usePlantStore } from '@/stores';
 import { calculateNextWatering } from '@/utils/watering';
-import { spacing, colors, typography, shadows } from '@/constants/design-tokens';
+import { spacing, colors, typography, shadows, borderRadius } from '@/constants/design-tokens';
 import { formatTitleCase } from '@/utils/formatTitleCase';
 
 // External
@@ -21,13 +21,16 @@ import { getImageByPlantType } from '@/utils/getImageByPlantType';
 import { PlantWithWateringInfo } from './index.types';
 import { getPlantsByCategoryData, getSubheading, getWateringStatus } from './index.utils';
 
+// Constants
+const OVERDUE_TEXT_COLOR = '#c00';
+
 // Component
 export default function Plants() {
   // Hooks
   const { showWelcomeToast } = useLocalSearchParams();
 
   // Hooks - stores
-  const { getAllPlants } = usePlantStore();
+  const plantsObj = usePlantStore((state) => state.plants);
 
   // Hooks - effects
   React.useEffect(() => {
@@ -42,8 +45,9 @@ export default function Plants() {
   }, [showWelcomeToast]);
 
   // Vars
-  const plants = getAllPlants();
-  const plantsByCategory = getPlantsByCategoryData(plants);
+  const plants = React.useMemo(() => Object.values(plantsObj), [plantsObj]);
+  // Group plants only when array changes
+  const plantsByCategory = React.useMemo(() => getPlantsByCategoryData(plants), [plants]);
 
   // Utils
   const renderSubheading = () => {
@@ -68,7 +72,9 @@ export default function Plants() {
     });
     const wateringStatus = getWateringStatus(nextWatering.min, nextWatering.max);
     const iconNotifications = item.areNotificationsEnabled ? 'bell.fill' : 'bell.slash';
+    const stylesWateringPill = [styles.wateringPill, wateringStatus.isOverdue && styles.wateringPillOverdue];
     const stylesWateringStatus = [styles.wateringText, wateringStatus.isOverdue && styles.wateringTextOverdue];
+    const pillIconColor = wateringStatus.isOverdue ? OVERDUE_TEXT_COLOR : colors.neutral[900];
 
     // Render
     return (
@@ -95,10 +101,10 @@ export default function Plants() {
 
             {/* Bottom row: Pill (left) + notification icon (right) */}
             <Row align='center' justify='space-between'>
-              <View style={styles.wateringPill}>
+              <View style={stylesWateringPill}>
                 <Row align='center' gap='xs'>
-                  <Icon name='drop.fill' size={14} color={colors.neutral[900]} />
-                  <Text variant='caption' style={stylesWateringStatus}>
+                  <Icon name='drop.fill' size={14} color={pillIconColor} />
+                  <Text variant='label' style={stylesWateringStatus}>
                     {wateringStatus.text}
                   </Text>
                 </Row>
@@ -218,15 +224,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neutral[0],
     borderWidth: 1,
     borderColor: colors.neutral[900],
-    borderRadius: 16,
+    borderRadius: borderRadius.full,
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs
+  },
+  wateringPillOverdue: {
+    backgroundColor: '#fee',
+    borderWidth: 0
   },
   wateringText: {
     color: colors.neutral[900]
   },
   wateringTextOverdue: {
-    color: colors.error
+    color: OVERDUE_TEXT_COLOR
   },
   plantInfo: {
     flexDirection: 'row',
