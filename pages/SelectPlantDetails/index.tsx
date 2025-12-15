@@ -176,7 +176,7 @@ export function SelectPlantDetails({
                     autoCapitalize='words'
                     returnKeyType='next'
                   />
-                  {errors.name && <FieldError>{errors.name.message}</FieldError>}
+                  <FieldError>{errors?.name?.message}</FieldError>
                 </Field>
               )}
             />
@@ -190,7 +190,7 @@ export function SelectPlantDetails({
                   <FieldLabel>Room</FieldLabel>
                   <FieldDescription>Where is your plant located?</FieldDescription>
                   <Select value={value} onValueChange={onChange} options={getRoomDropdownOptions()} placeholder='Select a room' error={Boolean(errors.room)} />
-                  {errors.room && <FieldError>{errors.room.message}</FieldError>}
+                  <FieldError>{errors?.room?.message}</FieldError>
                 </Field>
               )}
             />
@@ -217,7 +217,7 @@ export function SelectPlantDetails({
                 </Text>
                 <Icon name='chevron.right' size={20} color={placeholderColor} />
               </Pressable>
-              {errors.lastWatered && <FieldError>{errors.lastWatered.message}</FieldError>}
+              <FieldError>{errors?.lastWatered?.message}</FieldError>
             </Field>
           </View>
 
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm
   },
   form: {
-    gap: spacing.lg,
+    gap: 12,
     flex: 1
   },
   dateCard: {
