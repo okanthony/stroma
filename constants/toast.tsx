@@ -7,7 +7,7 @@ export const toastConfig = {
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: colors.success[500],
+        borderLeftColor: colors.success,
         borderLeftWidth: 5,
         backgroundColor: colors.neutral[0],
         height: 70
@@ -31,7 +31,7 @@ export const toastConfig = {
     <ErrorToast
       {...props}
       style={{
-        borderLeftColor: colors.error[500],
+        borderLeftColor: colors.error,
         borderLeftWidth: 5,
         backgroundColor: colors.neutral[0],
         height: 70

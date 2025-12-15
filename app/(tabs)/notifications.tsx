@@ -21,7 +21,7 @@ import React from 'react';
 import { format } from 'date-fns';
 
 // Component
-export default function NotificationsScreen() {
+export default function Notifications() {
   // Hooks - stores
   const { plants, plantIds, updatePlant } = usePlantStore();
   const { cancelAllNotificationsForPlant, scheduleNotificationsForPlant, setReminderTimeGlobal, getReminderTimeGlobal, arePermissionsDenied, getSystemPermissionStatus } = useNotificationsStore();
@@ -271,7 +271,7 @@ export default function NotificationsScreen() {
         title='Disable reminders?'
         description={`Without reminders, it will be harder to maintain ${plantToDisable?.name}'s health. Are you sure you want to turn them off?`}
         confirmText='Disable'
-        cancelText='Keep enabled'
+        cancelText='Cancel'
         variant='default'
         onConfirm={() => {
           if (plantToDisable) {

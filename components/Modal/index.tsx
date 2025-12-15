@@ -45,20 +45,25 @@ export function Modal({ visible, onClose, title, description, children, confirmT
 
               {/* Actions */}
               <Row gap='sm'>
-                <Button disabled={isConfirmLoading} variant='secondary' onPress={onClose} style={{ flex: 1 }}>
-                  {cancelText}
-                </Button>
-                <Button
-                  loading={isConfirmLoading}
-                  variant={variant === 'destructive' ? 'destructive' : 'primary'}
-                  onPress={() => {
-                    onConfirm?.();
-                    onClose();
-                  }}
-                  style={{ flex: 1 }}
-                >
-                  {confirmText}
-                </Button>
+                <View style={{ flex: 1 }}>
+                  <Button disabled={isConfirmLoading} variant='secondary' onPress={onClose} style={{ width: '100%' }}>
+                    {cancelText}
+                  </Button>
+                </View>
+
+                <View style={{ flex: 1 }}>
+                  <Button
+                    loading={isConfirmLoading}
+                    variant={variant === 'destructive' ? 'destructive' : 'primary'}
+                    onPress={() => {
+                      onConfirm?.();
+                      onClose();
+                    }}
+                    style={{ width: '100%' }}
+                  >
+                    {confirmText}
+                  </Button>
+                </View>
               </Row>
             </Column>
           </View>

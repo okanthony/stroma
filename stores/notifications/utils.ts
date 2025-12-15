@@ -25,8 +25,8 @@ export function formatWateringNotificationData(plantName: string, minDate: Date,
 
     notifications.push({
       // TEMP: 15 seconds from now for testing
-      scheduledDate: new Date(Date.now() + 15 * 1000),
-      //   scheduledDate: firstReminderDate,
+      // scheduledDate: new Date(Date.now() + 15 * 1000),
+      scheduledDate: firstReminderDate,
       title: `${plantName} is thirsty!`,
       body: `Reminder to water before ${format(maxDate, 'MMM do')}`,
       type: 'reminder-initial-before-min'
@@ -35,8 +35,8 @@ export function formatWateringNotificationData(plantName: string, minDate: Date,
     // 2nd reminder: 1 day after max date
     notifications.push({
       // TEMP: 30 seconds from now for testing
-      scheduledDate: new Date(Date.now() + 30 * 1000),
-      // scheduledDate: setToReminderTime(addDays(maxDate, 1)),
+      // scheduledDate: new Date(Date.now() + 30 * 1000),
+      scheduledDate: setToReminderTime(addDays(maxDate, 1)),
       title: `${plantName} is 1 day overdue`,
       body: 'Reminder to water ASAP',
       type: 'reminder-overdue-1-day'
@@ -45,8 +45,8 @@ export function formatWateringNotificationData(plantName: string, minDate: Date,
     // 3rd reminder: 2 days after max date
     notifications.push({
       // TEMP: 45 seconds from now for testing
-      scheduledDate: new Date(Date.now() + 45 * 1000),
-      // scheduledDate: setToReminderTime(addDays(maxDate, 2)),
+      // scheduledDate: new Date(Date.now() + 45 * 1000),
+      scheduledDate: setToReminderTime(addDays(maxDate, 2)),
       title: `${plantName} is 2 days overdue`,
       body: 'Final reminder to water ASAP',
       type: 'reminder-overdue-2-days'

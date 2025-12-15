@@ -2,7 +2,7 @@ import { FlatList, View, Pressable, StyleSheet } from 'react-native';
 import { Text } from '@/components/Text/index';
 import { getImageByPlantType } from '@/utils/getImageByPlantType';
 import { Image } from 'expo-image';
-import { spacing, colors } from '@/constants/design-tokens';
+import { spacing, colors, shadows } from '@/constants/design-tokens';
 import { router } from 'expo-router';
 import { Icon } from '@/components/Icon';
 import { PLANT_LIST_DATA, SelectPlantTypeProps } from './data';
@@ -89,14 +89,15 @@ const styles = StyleSheet.create({
     flex: 1
   },
   backButton: {
-    backgroundColor: colors.neutral[100],
-    width: 44,
-    height: 44,
-    borderRadius: 22, // Circular button
+    marginBottom: spacing.sm,
+    marginLeft: spacing.lg,
+    marginTop: spacing.lg,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.neutral[0],
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: spacing.sm, // Changed from md - reduces gap to title
-    marginLeft: spacing.lg, // Changed from lg - standard edge padding
-    marginTop: spacing.md // Changed from xl - more compact
+    ...shadows.md
   }
 });
