@@ -155,7 +155,7 @@ export default function RootLayout() {
   if (!isAppLoaded) {
     return (
       <View style={styles.titleContainer}>
-        <Image contentFit='contain' source={require('@/assets/images/splash-1.png')} style={styles.splashImage} />
+        <Image contentFit='contain' source={require('@/assets/images/splash.png')} style={styles.splashImage} />
       </View>
     );
   }
@@ -186,6 +186,7 @@ export default function RootLayout() {
             <Stack.Screen name='test/input' options={{ headerShown: false }} />
             <Stack.Screen name='test/button' options={{ headerShown: false }} />
             <Stack.Screen name='test/select' options={{ headerShown: false }} />
+            <Stack.Screen name='test/animations' options={{ headerShown: false }} />
           </Stack>
           <StatusBar style='auto' />
 
