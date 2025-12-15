@@ -14,13 +14,15 @@ import { useNotificationsStore, usePlantStore } from '@/stores';
 import { formatTitleCase } from '@/utils/formatTitleCase';
 
 // External
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { StackActions } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import React from 'react';
 
 // Components
 export default function EditPlantDetails() {
   // Hooks
+  const navigation = useNavigation();
   const { id } = useLocalSearchParams<{ id: string }>();
 
   // Hooks - stores
@@ -126,8 +128,10 @@ export default function EditPlantDetails() {
           // Delete the plant
           deletePlant(id);
 
-          // Navigate back to plants list
-          router.replace('/');
+          // Close modal
+          router.dismissAll();
+          // Navigate back to Plants page
+          navigation.dispatch(StackActions.pop(2));
 
           Toast.show({
             type: 'success',
