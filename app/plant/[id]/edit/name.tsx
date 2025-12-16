@@ -62,7 +62,7 @@ export default function EditPlantName() {
     });
 
     // Navigate to plant details page
-    router.push(`/plant/${id}`);
+    router.back();
 
     // Display success message
     Toast.show({
