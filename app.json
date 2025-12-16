@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "stroma",
+    "name": "Stroma",
     "slug": "stroma",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -18,7 +18,8 @@
       "bundleIdentifier": "com.venturespringmedia.stroma",
       "buildNumber": "1",
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"]
+        "UIBackgroundModes": ["remote-notification"],
+        "NSUserNotificationsUsageDescription": "Stroma sends you reminders when your plants need watering"
       },
       "config": {
         "usesNonExemptEncryption": false
