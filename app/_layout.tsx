@@ -177,8 +177,8 @@ export default function RootLayout() {
             {/* Plant details pages */}
             <Stack.Screen name='plant/[id]' options={{ headerShown: false }} />
             <Stack.Screen name='plant/[id]/edit' options={{ headerShown: false }} />
-            <Stack.Screen name='plant/[id]/edit/name' options={{ headerShown: false }} />
-            <Stack.Screen name='plant/[id]/edit/location' options={{ headerShown: false }} />
+            <Stack.Screen name='plant/[id]/edit/name' options={{ headerShown: false, presentation: 'modal' }} />
+            <Stack.Screen name='plant/[id]/edit/location' options={{ headerShown: false, presentation: 'modal' }} />
 
             {/* Test pages */}
             <Stack.Screen name='test/switch' options={{ headerShown: false }} />
