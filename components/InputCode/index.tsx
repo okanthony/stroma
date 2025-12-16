@@ -1,8 +1,8 @@
 // Components
-import { View, TextInput, StyleSheet, ViewStyle } from 'react-native';
+import { View, TextInput, StyleSheet, ViewStyle, Keyboard } from 'react-native';
 import { Text } from '@/components/Text';
 
-// Intenral
+// Internal
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { colors, spacing, borderRadius } from '@/constants/design-tokens';
 
@@ -84,11 +84,20 @@ export function InputCode({ length = 6, value, onChangeText, onComplete, disable
       const nextIndex = Math.min(limited.length, length - 1);
       setTimeout(() => inputRefs.current[nextIndex]?.focus(), 10);
 
-      // Call onComplete if filled
-      if (limited.length === length && onComplete) {
-        onComplete(limited);
+      // Dismiss keyboard if filled
+      if (limited.length === length) {
+        Keyboard.dismiss();
+
+        // Call onComplete if present
+        if (onComplete) {
+          onComplete(limited);
+        }
       }
       return;
+      // if (limited.length === length && onComplete) {
+      //   onComplete(limited);
+      // }
+      // return;
     }
 
     // Single character input
@@ -107,10 +116,19 @@ export function InputCode({ length = 6, value, onChangeText, onComplete, disable
         inputRefs.current[index + 1]?.focus();
       }
 
-      // Call onComplete if filled
-      if (newValue.length === length && onComplete) {
-        onComplete(newValue);
+      // Dismiss keyboard if filled
+      if (newValue.length === length) {
+        Keyboard.dismiss();
+
+        // Call onComplete if present
+        if (onComplete) {
+          onComplete(newValue);
+        }
       }
+      // // Call onComplete if filled
+      // if (newValue.length === length && onComplete) {
+      //   onComplete(newValue);
+      // }
     }
   };
 
