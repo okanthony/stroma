@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { Column } from '@/components/Column';
-import Svg, { Circle, Path } from 'react-native-svg';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
 // Internal
 import { usePlantStore, useNotificationsStore } from '@/stores';
@@ -27,7 +27,7 @@ export default function OnboardingEnableNotifications() {
   const { requestNotificationPermissions, scheduleNotificationsForPlant } = useNotificationsStore();
 
   // Hooks - state
-  const [state, setState] = React.useState<NotificationState>('granted');
+  const [state, setState] = React.useState<NotificationState>('prompt');
 
   // Handlers
   const handleAcceptCtaOnClick = async () => {
@@ -54,7 +54,7 @@ export default function OnboardingEnableNotifications() {
     if (state !== 'prompt') {
       const timer = setTimeout(() => {
         router.replace('/(tabs)');
-      }, 5000);
+      }, 3500);
 
       return () => clearTimeout(timer);
     }
@@ -114,50 +114,50 @@ export default function OnboardingEnableNotifications() {
             <View style={styles.iconContainer}>
               <Svg width='90' height='90' viewBox='0 0 80 80'>
                 {/* Calendar body */}
-                <rect x='15' y='20' width='50' height='45' rx='4' fill={colors.neutral[0]} stroke={colors.primary[500]} strokeWidth='2' />
+                <Rect x='15' y='20' width='50' height='45' rx='4' fill={colors.neutral[0]} stroke={colors.primary[500]} strokeWidth='2' />
 
                 {/* Calendar header */}
-                <rect x='15' y='20' width='50' height='12' rx='4' fill={colors.primary[500]} />
+                <Rect x='15' y='20' width='50' height='12' rx='4' fill={colors.primary[500]} />
 
                 {/* Left binding ring */}
-                <rect x='25' y='15' width='3' height='10' rx='1.5' fill={colors.primary[600]} />
+                <Rect x='25' y='15' width='3' height='10' rx='1.5' fill={colors.primary[600]} />
 
                 {/* Right binding ring */}
-                <rect x='52' y='15' width='3' height='10' rx='1.5' fill={colors.primary[600]} />
+                <Rect x='52' y='15' width='3' height='10' rx='1.5' fill={colors.primary[600]} />
 
                 {/* Calendar dots (dates) */}
-                <circle cx='25' cy='42' r='2' fill={colors.primary[400]} />
-                <circle cx='33' cy='42' r='2' fill={colors.primary[400]} />
-                <circle cx='41' cy='42' r='2' fill={colors.primary[400]} />
-                <circle cx='49' cy='42' r='2' fill={colors.primary[400]} />
-                <circle cx='57' cy='42' r='2' fill={colors.primary[400]} />
+                <Circle cx='25' cy='42' r='2' fill={colors.primary[400]} />
+                <Circle cx='33' cy='42' r='2' fill={colors.primary[400]} />
+                <Circle cx='41' cy='42' r='2' fill={colors.primary[400]} />
+                <Circle cx='49' cy='42' r='2' fill={colors.primary[400]} />
+                <Circle cx='57' cy='42' r='2' fill={colors.primary[400]} />
 
-                <circle cx='25' cy='50' r='2' fill={colors.primary[400]} />
-                <circle cx='33' cy='50' r='2' fill={colors.primary[400]} />
-                <circle cx='41' cy='50' r='2' fill={colors.primary[400]} />
-                <circle cx='49' cy='50' r='2' fill={colors.primary[400]} />
-                <circle cx='57' cy='50' r='2' fill={colors.primary[400]} />
+                <Circle cx='25' cy='50' r='2' fill={colors.primary[400]} />
+                <Circle cx='33' cy='50' r='2' fill={colors.primary[400]} />
+                <Circle cx='41' cy='50' r='2' fill={colors.primary[400]} />
+                <Circle cx='49' cy='50' r='2' fill={colors.primary[400]} />
+                <Circle cx='57' cy='50' r='2' fill={colors.primary[400]} />
 
-                <circle cx='25' cy='58' r='2' fill={colors.primary[400]} />
-                <circle cx='33' cy='58' r='2' fill={colors.primary[400]} />
-                <circle cx='41' cy='58' r='2' fill={colors.primary[400]} />
+                <Circle cx='25' cy='58' r='2' fill={colors.primary[400]} />
+                <Circle cx='33' cy='58' r='2' fill={colors.primary[400]} />
+                <Circle cx='41' cy='58' r='2' fill={colors.primary[400]} />
 
                 {/* Highlighted date (today) */}
-                <circle cx='49' cy='58' r='3.5' fill={colors.warning} />
+                <Circle cx='49' cy='58' r='3.5' fill={colors.warning} />
               </Svg>
             </View>
 
             <Column gap='md' style={styles.textContainer}>
               <Text variant='heading' style={styles.title}>
-                Never forget if your plants are thirsty
+                Keep your plants thriving
               </Text>
               <Text variant='body' style={styles.subtitle}>
-                Enable device notifications to keep your plants thriving
+                Enable reminders and we’ll let you know when it’s time to water them.
               </Text>
             </Column>
 
             <Column gap='sm' style={styles.buttons}>
-              <Button onPress={handleAcceptCtaOnClick}>Turn on reminders</Button>
+              <Button onPress={handleAcceptCtaOnClick}>Enable reminders</Button>
               <Button variant='ghost' onPress={handleSkipCtaOnClick}>
                 Maybe later
               </Button>

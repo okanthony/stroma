@@ -1,5 +1,5 @@
 // Components
-import { View, StyleSheet, KeyboardAvoidingView, Platform, Linking, Image } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, Linking, Image, Keyboard, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ScreenContainer } from '@/components/ScreenContainer';
 import { Field } from '@/components/Field';
 import { FieldError } from '@/components/FieldError';
@@ -154,6 +154,7 @@ export default function SignIn() {
   };
 
   const handleChangeEmailCtaOnClick = () => {
+    Keyboard.dismiss(); // Dismiss keyboard before navigating
     setResendCooldown(0); // Reset countdown
     setStep('email');
   };
@@ -261,35 +262,39 @@ export default function SignIn() {
   return (
     <ScreenContainer>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-        <View style={styles.content}>
-          <Column gap='lg'>
-            {/* Header */}
-            <Column gap='sm'>
-              {/* Logo */}
-              <View style={styles.logoContainer}>
-                <Image source={require('@/assets/images/logo-transparent.png')} style={styles.logo} resizeMode='contain' />
-              </View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.content}>
+              <Column gap='lg'>
+                {/* Header */}
+                <Column gap='sm'>
+                  {/* Logo */}
+                  <View style={styles.logoContainer}>
+                    <Image source={require('@/assets/images/logo-transparent.png')} style={styles.logo} resizeMode='contain' />
+                  </View>
 
-              <Text variant='heading' style={styles.title}>
-                {title}
-              </Text>
-              <Text variant='body' style={styles.subtitle}>
-                {subtitle}
-              </Text>
-            </Column>
+                  <Text variant='heading' style={styles.title}>
+                    {title}
+                  </Text>
+                  <Text variant='body' style={styles.subtitle}>
+                    {subtitle}
+                  </Text>
+                </Column>
 
-            {/* Form */}
-            <Column style={styles.formContainer}>
-              {/* Server errors */}
-              {authError && !isLoading && (
-                <View style={styles.authErrorContainer}>
-                  <Text style={styles.authErrorText}>{authError}</Text>
-                </View>
-              )}
-              {renderForm()}
-            </Column>
-          </Column>
-        </View>
+                {/* Form */}
+                <Column style={styles.formContainer}>
+                  {/* Server errors */}
+                  {authError && !isLoading && (
+                    <View style={styles.authErrorContainer}>
+                      <Text style={styles.authErrorText}>{authError}</Text>
+                    </View>
+                  )}
+                  {renderForm()}
+                </Column>
+              </Column>
+            </View>
+          </TouchableWithoutFeedback>
+        </ScrollView>
       </KeyboardAvoidingView>
     </ScreenContainer>
   );
