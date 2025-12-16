@@ -1,7 +1,8 @@
 // Components
-import { StyleSheet, Dimensions, View, AppState, AppStateStatus } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, AppState, AppStateStatus, Pressable } from 'react-native';
 import { Stack, router, usePathname } from 'expo-router';
 import Toast from 'react-native-toast-message';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Image } from 'expo-image';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -21,6 +22,39 @@ import { setNotificationHandler } from 'expo-notifications';
 
 // Constants
 const { width, height } = Dimensions.get('window');
+
+// Sub-component
+function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
+  const handleRestart = async () => {
+    // Option 1: Just reset the error boundary
+    resetErrorBoundary();
+
+    // Option 2: Force app reload (more thorough)
+    // await Updates.reloadAsync();
+  };
+
+  // TODO: log this error to analytics service
+  // logErrorToBackend(error);
+
+  return (
+    <View style={styles.errorBoundaryContainer}>
+      <Text style={styles.errorBoundaryEmoji}>🌱</Text>
+      <Text style={styles.errorBoundaryTitle}>Oops! Something went wrong</Text>
+      <Text style={styles.errorBoundaryMessage}>We've been notified and are working on a fix.</Text>
+
+      <Pressable style={styles.errorBoundaryButton} onPress={handleRestart}>
+        <Text style={styles.errorBoundaryButtonText}>Restart App</Text>
+      </Pressable>
+
+      {__DEV__ && (
+        <View style={styles.errorBoundaryDevError}>
+          <Text style={styles.errorBoundaryDevErrorText}>{error.message}</Text>
+          <Text style={styles.errorBoundaryDevErrorStack}>{error.stack}</Text>
+        </View>
+      )}
+    </View>
+  );
+}
 
 // Component
 export default function RootLayout() {
@@ -161,39 +195,50 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name='index' options={{ headerShown: false }} />
-            <Stack.Screen name='sign-in' options={{ headerShown: false }} />
-            <Stack.Screen name='onboarding' options={{ headerShown: false }} />
-            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={(error, errorInfo) => {
+        if (!__DEV__) {
+          // TODO: log error in analytics service
+          // logErrorToService(error, errorInfo);
+          console.error('Error caught by boundary:', error);
+        }
+      }}
+    >
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+              <Stack.Screen name='index' options={{ headerShown: false }} />
+              <Stack.Screen name='sign-in' options={{ headerShown: false }} />
+              <Stack.Screen name='onboarding' options={{ headerShown: false }} />
+              <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
 
-            {/* Add plant flow */}
-            <Stack.Screen name='plant/add' options={{ headerShown: false }} />
-            <Stack.Screen name='plant/name' options={{ headerShown: false }} />
+              {/* Add plant flow */}
+              <Stack.Screen name='plant/add' options={{ headerShown: false }} />
+              <Stack.Screen name='plant/name' options={{ headerShown: false }} />
 
-            {/* Plant details pages */}
-            <Stack.Screen name='plant/[id]' options={{ headerShown: false }} />
-            <Stack.Screen name='plant/[id]/edit' options={{ headerShown: false }} />
-            <Stack.Screen name='plant/[id]/edit/name' options={{ headerShown: false, presentation: 'modal' }} />
-            <Stack.Screen name='plant/[id]/edit/location' options={{ headerShown: false, presentation: 'modal' }} />
+              {/* Plant details pages */}
+              <Stack.Screen name='plant/[id]' options={{ headerShown: false }} />
+              <Stack.Screen name='plant/[id]/edit' options={{ headerShown: false }} />
+              <Stack.Screen name='plant/[id]/edit/name' options={{ headerShown: false, presentation: 'modal' }} />
+              <Stack.Screen name='plant/[id]/edit/location' options={{ headerShown: false, presentation: 'modal' }} />
 
-            {/* Test pages */}
-            <Stack.Screen name='test/switch' options={{ headerShown: false }} />
-            <Stack.Screen name='test/field' options={{ headerShown: false }} />
-            <Stack.Screen name='test/input' options={{ headerShown: false }} />
-            <Stack.Screen name='test/button' options={{ headerShown: false }} />
-            <Stack.Screen name='test/select' options={{ headerShown: false }} />
-            <Stack.Screen name='test/animations' options={{ headerShown: false }} />
-          </Stack>
-          <StatusBar style='auto' />
+              {/* Test pages */}
+              <Stack.Screen name='test/switch' options={{ headerShown: false }} />
+              <Stack.Screen name='test/field' options={{ headerShown: false }} />
+              <Stack.Screen name='test/input' options={{ headerShown: false }} />
+              <Stack.Screen name='test/button' options={{ headerShown: false }} />
+              <Stack.Screen name='test/select' options={{ headerShown: false }} />
+              <Stack.Screen name='test/animations' options={{ headerShown: false }} />
+            </Stack>
+            <StatusBar style='auto' />
 
-          <Toast config={toastConfig} />
-        </ThemeProvider>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+            <Toast config={toastConfig} />
+          </ThemeProvider>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </ErrorBoundary>
   );
 }
 
@@ -208,5 +253,59 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFAE9',
     gap: 8
+  },
+  errorBoundaryContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+    backgroundColor: '#FFFAE9' // Your cream color
+  },
+  errorBoundaryEmoji: {
+    fontSize: 64,
+    marginBottom: 16
+  },
+  errorBoundaryTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#1F2937',
+    marginBottom: 12,
+    textAlign: 'center'
+  },
+  errorBoundaryMessage: {
+    fontSize: 16,
+    color: '#6B7280',
+    textAlign: 'center',
+    marginBottom: 32,
+    lineHeight: 24
+  },
+  errorBoundaryButton: {
+    backgroundColor: '#4D9552',
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 12
+  },
+  errorBoundaryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600'
+  },
+  errorBoundaryDevError: {
+    marginTop: 32,
+    padding: 16,
+    backgroundColor: '#FEE2E2',
+    borderRadius: 8,
+    maxWidth: '100%'
+  },
+  errorBoundaryDevErrorText: {
+    color: '#991B1B',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 8
+  },
+  errorBoundaryDevErrorStack: {
+    color: '#991B1B',
+    fontSize: 12,
+    fontFamily: 'monospace'
   }
 });
