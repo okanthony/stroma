@@ -22,6 +22,8 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 // Types
 type PlantLocationFormData = z.infer<typeof plantLocationSchema>;
@@ -63,7 +65,7 @@ export default function EditPlantLocation() {
     });
 
     // Navigate to plant details page
-    router.push(`/plant/${id}`);
+    router.back();
 
     // Display success message
     Toast.show({
@@ -85,43 +87,47 @@ export default function EditPlantLocation() {
 
   // Render
   return (
-    <ScreenContainer>
-      {/* Back button */}
-      <Pressable onPress={() => router.back()} style={styles.backButton}>
-        <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
-      </Pressable>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <ScreenContainer>
+          {/* Back button */}
+          <Pressable onPress={() => router.back()} style={styles.backButton}>
+            <Icon name='chevron.left' size={24} color={colors.neutral[900]} />
+          </Pressable>
 
-      {/* Header */}
-      <Text variant='heading' style={styles.title}>
-        Edit room
-      </Text>
+          {/* Header */}
+          <Text variant='heading' style={styles.title}>
+            Edit room
+          </Text>
 
-      {/* Content */}
-      <View style={styles.content}>
-        <Column gap='lg'>
-          {/* Room Field */}
-          <Controller
-            control={control}
-            name='room'
-            render={({ field: { onChange, value } }) => (
-              <Field error={Boolean(errors.room)}>
-                <FieldLabel>Room</FieldLabel>
-                <Select value={value} onValueChange={onChange} options={getRoomDropdownOptions()} placeholder='Select a room' error={Boolean(errors.room)} />
-                <FieldError>{errors.room?.message}</FieldError>
-              </Field>
-            )}
-          />
-        </Column>
-      </View>
+          {/* Content */}
+          <View style={styles.content}>
+            <Column gap='lg'>
+              {/* Room Field */}
+              <Controller
+                control={control}
+                name='room'
+                render={({ field: { onChange, value } }) => (
+                  <Field error={Boolean(errors.room)}>
+                    <FieldLabel>Room</FieldLabel>
+                    <Select value={value} onValueChange={onChange} options={getRoomDropdownOptions()} placeholder='Select a room' error={Boolean(errors.room)} />
+                    <FieldError>{errors.room?.message}</FieldError>
+                  </Field>
+                )}
+              />
+            </Column>
+          </View>
 
-      {/* CTA */}
+          {/* CTA */}
 
-      <View style={styles.buttonContainer}>
-        <Button variant='primary' disabled={!isDirty} onPress={handleSubmit(onSubmit)}>
-          Save
-        </Button>
-      </View>
-    </ScreenContainer>
+          <View style={styles.buttonContainer}>
+            <Button variant='primary' disabled={!isDirty} onPress={handleSubmit(onSubmit)}>
+              Save
+            </Button>
+          </View>
+        </ScreenContainer>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 }
 
