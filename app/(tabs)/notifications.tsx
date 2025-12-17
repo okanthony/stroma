@@ -8,7 +8,6 @@ import { Modal } from '@/components/Modal';
 import { Column } from '@/components/Column/index';
 import Toast from 'react-native-toast-message';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Callout, CalloutTitle } from './notifications.components';
 
 // Internal
 import { usePlantStore, useNotificationsStore } from '@/stores';
@@ -19,6 +18,93 @@ import { formatTitleCase } from '@/utils/formatTitleCase';
 // External
 import React from 'react';
 import { format } from 'date-fns';
+
+// Types
+interface CalloutProps {
+  children: React.ReactNode;
+  ctaLabel: string;
+  ctaOnPress: () => void;
+}
+
+// Sub-components
+function Callout({ children, ctaLabel, ctaOnPress }: CalloutProps) {
+  return (
+    <View style={stylesCallout.container}>
+      <View style={stylesCallout.iconContainer}>
+        <View style={stylesCallout.iconCircle}>
+          <Text style={stylesCallout.iconText}>!</Text>
+        </View>
+      </View>
+
+      <View style={stylesCallout.content}>{children}</View>
+
+      {ctaLabel && (
+        <Pressable onPress={ctaOnPress} style={stylesCallout.actionButton}>
+          <Text style={stylesCallout.actionText}>{ctaLabel}</Text>
+        </Pressable>
+      )}
+    </View>
+  );
+}
+
+function CalloutTitle({ children }: { children: React.ReactNode }) {
+  return <Text style={stylesCallout.title}>{children}</Text>;
+}
+
+// function CalloutDescription({ children }: { children: React.ReactNode }) {
+//   return <Text style={stylesCallout.description}>{children}</Text>;
+// }
+
+const stylesCallout = StyleSheet.create({
+  container: {
+    backgroundColor: colors.error + '15', // error color with 15% opacity
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm
+  },
+  iconContainer: {
+    alignSelf: 'flex-start'
+  },
+  iconCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: colors.error,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  iconText: {
+    color: colors.neutral[0],
+    fontSize: typography.sizes.base,
+    fontWeight: typography.weights.bold
+  },
+  content: {
+    flex: 1,
+    marginLeft: spacing.xs,
+    gap: spacing.xs
+  },
+  actionButton: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs
+  },
+  actionText: {
+    fontSize: typography.sizes.base,
+    fontWeight: typography.weights.semibold,
+    color: colors.error
+  },
+  title: {
+    fontSize: typography.sizes.base,
+    fontWeight: typography.weights.normal,
+    color: colors.error
+  },
+  description: {
+    fontSize: typography.sizes.sm,
+    color: colors.error,
+    lineHeight: typography.sizes.sm * 1.5
+  }
+});
 
 // Component
 export default function Notifications() {
