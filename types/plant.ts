@@ -59,3 +59,25 @@ export interface PlantWateringDataEntry {
     };
   };
 }
+
+export interface PlantWithWateringInfo extends Plant {
+  wateringCopy: {
+    label: string;
+    value: string;
+  };
+}
+
+export type GroupedPlants = {
+  today: (PlantWithWateringInfo & { isOverdue?: boolean })[];
+  thisWeek: PlantWithWateringInfo[];
+  nextWeek: PlantWithWateringInfo[];
+  thisMonth: PlantWithWateringInfo[];
+};
+
+/**
+ * Result object for next watering display copy
+ */
+export interface NextWateringCopy {
+  label: string;
+  value: string;
+}

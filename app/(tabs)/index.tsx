@@ -13,13 +13,15 @@ import { usePlantStore } from '@/stores';
 import { calculateNextWatering } from '@/utils/watering';
 import { spacing, colors, typography, shadows, borderRadius } from '@/constants/design-tokens';
 import { formatTitleCase } from '@/utils/formatTitleCase';
+import { getImageByPlantType } from '@/utils/getImageByPlantType';
+import { PlantWithWateringInfo } from '@/types/plant';
+import { getPlantsByCategoryData } from '@/utils/getPlantsByCategoryData';
+import { getPlantWateringStatus } from '@/utils/getPlantWateringStatus';
+import { getPlantCategorySubheading } from '@/utils/getPlantCategorySubheading';
 
 // External
 import React from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
-import { getImageByPlantType } from '@/utils/getImageByPlantType';
-import { PlantWithWateringInfo } from './index.types';
-import { getPlantsByCategoryData, getSubheading, getWateringStatus } from './index.utils';
 
 // Constants
 const OVERDUE_TEXT_COLOR = '#c00';
@@ -51,7 +53,7 @@ export default function Plants() {
 
   // Utils
   const renderSubheading = () => {
-    const subheading = getSubheading(plantsByCategory);
+    const subheading = getPlantCategorySubheading(plantsByCategory);
 
     if (subheading) {
       return (
@@ -70,7 +72,7 @@ export default function Plants() {
       lastWatered: item.lastWatered,
       type: item.type
     });
-    const wateringStatus = getWateringStatus(nextWatering.min, nextWatering.max);
+    const wateringStatus = getPlantWateringStatus(nextWatering.min, nextWatering.max);
     const iconNotifications = item.areNotificationsEnabled ? 'bell.fill' : 'bell.slash';
     const stylesWateringPill = [styles.wateringPill, wateringStatus.isOverdue && styles.wateringPillOverdue];
     const stylesWateringStatus = [styles.wateringText, wateringStatus.isOverdue && styles.wateringTextOverdue];

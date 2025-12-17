@@ -1,15 +1,7 @@
 import { parseISO, isWithinInterval, startOfDay, differenceInDays, isAfter, isSameDay, isBefore, format } from 'date-fns';
 import type { Plant } from '@/types/plant';
 import { calculateNextWatering, NextWateringRange } from '@/utils/watering';
-import { GroupedPlants, PlantWithWateringInfo } from './index.types';
-
-/**
- * Result object for next watering display copy
- */
-export interface NextWateringCopy {
-  label: string;
-  value: string;
-}
+import { PlantWithWateringInfo, NextWateringCopy } from '@/types/plant';
 
 /**
  * Generates dynamic copy for next watering date based on current date
@@ -31,7 +23,7 @@ export interface NextWateringCopy {
  * getNextWateringCopy({ min: '2025-11-20T12:00:00.000Z', max: '2025-11-23T12:00:00.000Z' })
  * // { label: 'Watering overdue', value: '7 days' }
  */
-export function getNextWateringCopy(range: NextWateringRange): NextWateringCopy {
+function getNextWateringCopy(range: NextWateringRange): NextWateringCopy {
   const now = new Date();
   const minDate = parseISO(range.min);
   const maxDate = parseISO(range.max);
@@ -162,68 +154,4 @@ export const getPlantsByCategoryData = (plants: Plant[]) => {
   });
 
   return plantsGrouped;
-};
-
-export const getWateringStatus = (minDate: string, maxDate: string) => {
-  const today = startOfDay(new Date());
-  const min = startOfDay(parseISO(minDate));
-  const max = startOfDay(parseISO(maxDate));
-
-  // Overdue: today is after max date
-  if (isAfter(today, max)) {
-    const daysOverdue = differenceInDays(today, max);
-    return {
-      text: `${daysOverdue} ${daysOverdue === 1 ? 'day' : 'days'} overdue`,
-      isOverdue: true
-    };
-  }
-
-  // Today: today is min date or between min and max
-  if (isSameDay(today, min) || (isAfter(today, min) && isBefore(today, max))) {
-    return {
-      text: 'today',
-      isOverdue: false
-    };
-  }
-
-  // Future: today is before min date
-  if (isBefore(today, min)) {
-    const daysUntil = differenceInDays(min, today);
-    return {
-      text: `in ${daysUntil} ${daysUntil === 1 ? 'day' : 'days'}`,
-      isOverdue: false
-    };
-  }
-
-  // Fallback
-  return {
-    text: 'today',
-    isOverdue: false
-  };
-};
-
-export const getSubheading = (groupedPlants: GroupedPlants): string | null => {
-  const { today, thisWeek } = groupedPlants;
-
-  // Check for overdue plants in today section
-  const overduePlants = today.filter((plant) => plant.isOverdue);
-  if (overduePlants.length > 0) {
-    const count = overduePlants.length;
-    return `You have ${count} ${count === 1 ? 'plant' : 'plants'} overdue for watering`;
-  }
-
-  // Check for plants to water today (not overdue)
-  if (today.length > 0) {
-    const count = today.length;
-    return `You have ${count} ${count === 1 ? 'plant' : 'plants'} to water today`;
-  }
-
-  // Check for plants to water this week
-  if (thisWeek.length > 0) {
-    const count = thisWeek.length;
-    return `You have ${count} ${count === 1 ? 'plant' : 'plants'} to water this week`;
-  }
-
-  // No upcoming watering needed
-  return 'No plants to water this week';
 };
