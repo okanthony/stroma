@@ -3,9 +3,9 @@ import { StyleSheet, Dimensions, View, Text, AppState, AppStateStatus, Pressable
 import { Stack, router, usePathname } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Image } from 'expo-image';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { StatusBar } from 'expo-status-bar';
 
 // Internal
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -17,11 +17,15 @@ import { supabase } from '@/clients/supabase';
 import React from 'react';
 import 'react-native-reanimated';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 import { setNotificationHandler } from 'expo-notifications';
+import * as SplashScreen from 'expo-splash-screen';
 
 // Constants
 const { width, height } = Dimensions.get('window');
+
+// Globals
+// Prevent native splash from auto-hiding
+SplashScreen.preventAutoHideAsync();
 
 // Sub-component
 function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
@@ -77,33 +81,57 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   // Hooks - effects
-  // Display splash screen after initial app load while store hydrates
+  // Ensure splash screen displayed after initial app load until stores hydrate
   React.useEffect(() => {
-    const minDisplayTime = 1500; // 1.5 seconds
     let hydrated = false;
+    let timerCompleted = false;
 
-    // Wait for hydration
-    const unsubscribe = useAuthStore.persist.onFinishHydration(() => {
-      hydrated = true;
-    });
+    // Stores hydrated and minimum time passed - set app as loaded
+    const checkReady = () => {
+      if (hydrated && timerCompleted) {
+        setIsAppLoaded(true);
+      }
+    };
 
-    // Also check if already hydrated
+    // Check if auth store already hydrated before setting up listener
     if (useAuthStore.persist.hasHydrated()) {
+      console.log('[Hydration] Auth store already hydrated');
       hydrated = true;
     }
 
-    // Always wait minimum time
+    // Auth store not hyderated - wait for hydration
+    const unsubscribeAuth = useAuthStore.persist.onFinishHydration(() => {
+      console.log('[Hydration] Auth store hydrated');
+      hydrated = true;
+      checkReady();
+    });
+
+    // TODO: also wait for plant store if needed?
+    // const unsubscribePlant = usePlantStore.persist.onFinishHydration(() => {
+    //   console.log('[Hydration] Plant store hydrated');
+    // });
+
+    // Minimum display time to prevent flicker of splash screen
     const timer = setTimeout(() => {
-      if (hydrated) {
-        setIsAppLoaded(true);
-      }
-    }, minDisplayTime);
+      console.log('[Hydration] Timer completed');
+      timerCompleted = true;
+      checkReady();
+    }, 1500);
 
     return () => {
+      unsubscribeAuth();
+      // TODO: unsubscribePlant();
       clearTimeout(timer);
-      unsubscribe();
     };
   }, []);
+
+  // Hide splash screen once app marked as loaded
+  React.useEffect(() => {
+    if (isAppLoaded) {
+      console.log('[Hydration] App ready, hiding splash');
+      SplashScreen.hideAsync();
+    }
+  }, [isAppLoaded]);
 
   // Manage Supabase user session
   React.useEffect(() => {
@@ -186,12 +214,9 @@ export default function RootLayout() {
   }, [pathname]);
 
   // Render
+  // App not loaded - keep splash screen displayed
   if (!isAppLoaded) {
-    return (
-      <View style={styles.titleContainer}>
-        <Image contentFit='contain' source={require('@/assets/images/splash.png')} style={styles.splashImage} />
-      </View>
-    );
+    return null;
   }
 
   return (
@@ -213,6 +238,9 @@ export default function RootLayout() {
               <Stack.Screen name='sign-in' options={{ headerShown: false }} />
               <Stack.Screen name='onboarding' options={{ headerShown: false }} />
               <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+
+              {/* Settings pages */}
+              <Stack.Screen name='settings/account' options={{ headerShown: false }} />
 
               {/* Add plant flow */}
               <Stack.Screen name='plant/add' options={{ headerShown: false }} />
