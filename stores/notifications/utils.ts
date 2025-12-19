@@ -1,5 +1,5 @@
 import { NotificationConfig } from '@/types/notifications';
-import { addDays, differenceInDays, isBefore, isAfter, startOfDay, format } from 'date-fns';
+import { addDays, differenceInDays, isBefore, isAfter, startOfDay, format, isSameDay } from 'date-fns';
 import { useNotificationsStore } from './';
 
 // Helper to create a date at the user's preferred reminder time
@@ -55,13 +55,19 @@ export function formatWateringNotificationData(plantName: string, minDate: Date,
 
   // Scenario 2: Current date is between min and max watering dates
   else if (!isBefore(today, startOfDay(minDate)) && !isAfter(today, startOfDay(maxDate))) {
-    // 1st reminder: tomorrow at 9am
-    notifications.push({
-      scheduledDate: setToReminderTime(addDays(today, 1)),
-      title: `${plantName} is thirsty!`,
-      body: `Reminder to water before ${format(maxDate, 'MMM do')}`,
-      type: 'reminder-initial-between-min-max'
-    });
+    // Edge case: if today is the max date, skip the "tomorrow" reminder
+    // since it would be scheduled for the same time as the "1 day after max" reminder
+    const isMaxDate = isSameDay(today, maxDate);
+
+    if (!isMaxDate) {
+      // 1st reminder: tomorrow at 9am
+      notifications.push({
+        scheduledDate: setToReminderTime(addDays(today, 1)),
+        title: `${plantName} is thirsty!`,
+        body: `Reminder to water before ${format(maxDate, 'MMM do')}`,
+        type: 'reminder-initial-between-min-max'
+      });
+    }
 
     // 2nd reminder: 1 day after max date
     notifications.push({
