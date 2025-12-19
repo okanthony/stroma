@@ -1,5 +1,5 @@
 // Components
-import { View, StyleSheet, ScrollView, Linking, Pressable } from 'react-native';
+import { View, StyleSheet, ScrollView, Linking, Pressable, Share } from 'react-native';
 import { Column } from '@/components/Column';
 import { Text } from '@/components/Text';
 import { Icon } from '@/components/Icon';
@@ -15,6 +15,10 @@ import appConfig from '@/app.json';
 
 // Exteneral
 import { router } from 'expo-router';
+import { isAvailableAsync, requestReview } from 'expo-store-review';
+
+// Constants
+const APP_STORE_URL = 'https://apps.apple.com/app/id6756553969';
 
 // Components
 export default function Settings() {
@@ -35,6 +39,37 @@ export default function Settings() {
     const canOpen = await Linking.canOpenURL(url);
     if (canOpen) {
       await Linking.openURL(url);
+    }
+  };
+
+  const handleShareCtaOnClick = async () => {
+    try {
+      await Share.share({
+        message: 'Hey check out Stroma - it makes plant care easy!',
+        url: APP_STORE_URL
+      });
+    } catch (error) {
+      console.error('Error sharing app:', error);
+    }
+  };
+
+  const handleRateCtaOnClick = async () => {
+    try {
+      const isAvailable = await isAvailableAsync();
+
+      if (isAvailable) {
+        await requestReview();
+      } else {
+        // Fallback to App Store URL if in-app review is not available
+        const appStoreReviewUrl = APP_STORE_URL + '?action=write-review';
+        const canOpen = await Linking.canOpenURL(appStoreReviewUrl);
+
+        if (canOpen) {
+          await Linking.openURL(appStoreReviewUrl);
+        }
+      }
+    } catch (error) {
+      console.error('Error requesting review:', error);
     }
   };
 
@@ -67,37 +102,23 @@ export default function Settings() {
           </Column>
 
           {/* App Store section */}
-          {/* <Column gap='md'>
+          <Column gap='md'>
             <Text variant='subheading' weight='semibold'>
               App Store
             </Text>
 
-            <Pressable
-              onPress={() => {
-                // TODO: Implement share functionality
-                console.log('Share app');
-              }}
-              accessibilityRole='button'
-              accessibilityLabel='Share the app'
-            >
+            <Pressable onPress={handleShareCtaOnClick} accessibilityRole='button' accessibilityLabel='Share the app'>
               <Text variant='body' style={[styles.link, { color: colors.primary[500] }]}>
                 Share the App
               </Text>
             </Pressable>
 
-            <Pressable
-              onPress={() => {
-                // TODO: Implement rate app functionality
-                console.log('Rate app');
-              }}
-              accessibilityRole='button'
-              accessibilityLabel='Rate the app'
-            >
+            <Pressable onPress={handleRateCtaOnClick} accessibilityRole='button' accessibilityLabel='Rate the app'>
               <Text variant='body' style={[styles.link, { color: colors.primary[500] }]}>
                 Rate the App
               </Text>
             </Pressable>
-          </Column> */}
+          </Column>
 
           {/* Legal section */}
           <Column gap='md'>
