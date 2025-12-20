@@ -65,7 +65,7 @@ export default function OnboardingEnableNotifications() {
     switch (state) {
       case 'granted':
         return (
-          <View style={styles.stateContainer}>
+          <View style={styles.container}>
             {/* Success Icon */}
             <View style={styles.iconContainer}>
               <Svg width='80' height='80' viewBox='0 0 80 80'>
@@ -87,7 +87,7 @@ export default function OnboardingEnableNotifications() {
 
       case 'denied':
         return (
-          <View style={styles.stateContainer}>
+          <View style={styles.container}>
             {/* Denied Icon */}
             <View style={styles.iconContainer}>
               <Svg width='70' height='70' viewBox='0 0 80 80'>
@@ -109,41 +109,41 @@ export default function OnboardingEnableNotifications() {
 
       default: // 'prompt'
         return (
-          <View style={styles.promptContainer}>
+          <View style={styles.container}>
             {/* Calendar Icon */}
             <View style={styles.iconContainer}>
-              <Svg width='90' height='90' viewBox='0 0 80 80'>
+              <Svg width='80' height='80' viewBox='0 0 80 80'>
                 {/* Calendar body */}
-                <Rect x='15' y='20' width='50' height='45' rx='4' fill={colors.neutral[0]} stroke={colors.primary[500]} strokeWidth='2' />
+                <Rect x='4' y='8' width='72' height='68' rx='6' fill={colors.neutral[0]} stroke={colors.primary[500]} strokeWidth='2.5' />
 
                 {/* Calendar header */}
-                <Rect x='15' y='20' width='50' height='12' rx='4' fill={colors.primary[500]} />
+                <Rect x='4' y='8' width='72' height='18' rx='6' fill={colors.primary[500]} />
 
                 {/* Left binding ring */}
-                <Rect x='25' y='15' width='3' height='10' rx='1.5' fill={colors.primary[600]} />
+                <Rect x='19' y='2' width='5' height='13' rx='2.5' fill={colors.primary[600]} />
 
                 {/* Right binding ring */}
-                <Rect x='52' y='15' width='3' height='10' rx='1.5' fill={colors.primary[600]} />
+                <Rect x='56' y='2' width='5' height='13' rx='2.5' fill={colors.primary[600]} />
 
                 {/* Calendar dots (dates) */}
-                <Circle cx='25' cy='42' r='2' fill={colors.primary[400]} />
-                <Circle cx='33' cy='42' r='2' fill={colors.primary[400]} />
-                <Circle cx='41' cy='42' r='2' fill={colors.primary[400]} />
-                <Circle cx='49' cy='42' r='2' fill={colors.primary[400]} />
-                <Circle cx='57' cy='42' r='2' fill={colors.primary[400]} />
+                <Circle cx='17' cy='40' r='3' fill={colors.primary[400]} />
+                <Circle cx='29' cy='40' r='3' fill={colors.primary[400]} />
+                <Circle cx='40' cy='40' r='3' fill={colors.primary[400]} />
+                <Circle cx='51' cy='40' r='3' fill={colors.primary[400]} />
+                <Circle cx='63' cy='40' r='3' fill={colors.primary[400]} />
 
-                <Circle cx='25' cy='50' r='2' fill={colors.primary[400]} />
-                <Circle cx='33' cy='50' r='2' fill={colors.primary[400]} />
-                <Circle cx='41' cy='50' r='2' fill={colors.primary[400]} />
-                <Circle cx='49' cy='50' r='2' fill={colors.primary[400]} />
-                <Circle cx='57' cy='50' r='2' fill={colors.primary[400]} />
+                <Circle cx='17' cy='52' r='3' fill={colors.primary[400]} />
+                <Circle cx='29' cy='52' r='3' fill={colors.primary[400]} />
+                <Circle cx='40' cy='52' r='3' fill={colors.primary[400]} />
+                <Circle cx='51' cy='52' r='3' fill={colors.primary[400]} />
+                <Circle cx='63' cy='52' r='3' fill={colors.primary[400]} />
 
-                <Circle cx='25' cy='58' r='2' fill={colors.primary[400]} />
-                <Circle cx='33' cy='58' r='2' fill={colors.primary[400]} />
-                <Circle cx='41' cy='58' r='2' fill={colors.primary[400]} />
+                <Circle cx='17' cy='64' r='3' fill={colors.primary[400]} />
+                <Circle cx='29' cy='64' r='3' fill={colors.primary[400]} />
+                <Circle cx='40' cy='64' r='3' fill={colors.primary[400]} />
 
                 {/* Highlighted date (today) */}
-                <Circle cx='49' cy='58' r='3.5' fill={colors.warning} />
+                <Circle cx='51' cy='64' r='5' fill={colors.warning} />
               </Svg>
             </View>
 
@@ -156,7 +156,7 @@ export default function OnboardingEnableNotifications() {
               </Text>
             </Column>
 
-            <Column gap='sm' style={styles.buttons}>
+            <Column gap='sm' style={styles.buttonContainer}>
               <Button onPress={handleAcceptCtaOnClick}>Enable reminders</Button>
               <Button variant='ghost' onPress={handleSkipCtaOnClick}>
                 Maybe later
@@ -169,32 +169,22 @@ export default function OnboardingEnableNotifications() {
 
   // Render
   return (
-    <ScreenContainer>
-      <View style={styles.container}>{renderContent()}</View>
+    <ScreenContainer scrollable padding={false}>
+      {renderContent()}
     </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  promptContainer: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal: spacing.xl,
+    paddingTop: 260,
     gap: spacing.xl,
-    marginTop: 200
+    paddingHorizontal: spacing.lg
   },
   iconContainer: {
     alignItems: 'center'
-  },
-  stateContainer: {
-    flex: 1,
-    marginTop: 215,
-    alignItems: 'center',
-    paddingHorizontal: spacing.xl,
-    gap: spacing.xl
   },
   textContainer: {
     alignItems: 'center'
@@ -215,8 +205,8 @@ const styles = StyleSheet.create({
     color: colors.neutral[600],
     textAlign: 'center'
   },
-  buttons: {
-    width: '100%'
+  buttonContainer: {
+    width: '80%'
   },
   logoutContainer: {
     padding: spacing.md,
