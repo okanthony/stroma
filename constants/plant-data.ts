@@ -557,7 +557,7 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
     overview:
       'Calatheas are stunning tropical plants known for their elaborately patterned leaves and unique behavior of folding their leaves up at night. They require more attention than most houseplants but reward you with dramatic foliage.',
     watering:
-      'During growing season (spring and summer), water when the top inch of soil is dry, typically every 5-7 days, keeping soil consistently moist. In fall and winter, reduce to every 7-10 days. Use filtered or distilled water as they're sensitive to chemicals in tap water.',
+      "During growing season (spring and summer), water when the top inch of soil is dry, typically every 5-7 days, keeping soil consistently moist. In fall and winter, reduce to every 7-10 days. Use filtered or distilled water as they're sensitive to chemicals in tap water.",
     fertilizer:
       'Feed every 3-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to quarter strength. Reduce to every 6-8 weeks in fall and skip fertilizing in winter.',
     light: 'Prefer medium to bright, indirect light. Direct sunlight will fade the leaf patterns and scorch the leaves. Can tolerate lower light but growth will slow.',
@@ -569,8 +569,7 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
       'Syngoniums are fast-growing vining plants with arrow-shaped leaves that come in shades of green, pink, and white. As they mature, the leaf shape changes from compact arrows to larger, more lobed foliage.',
     watering:
       'During growing season (spring and summer), water when the top inch of soil is dry, approximately every 5-7 days. In fall and winter, reduce watering to every 10-14 days. They prefer evenly moist soil but tolerate brief periods of dryness.',
-    fertilizer:
-      'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and skip fertilizing in winter.',
+    fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and skip fertilizing in winter.',
     light: 'Thrive in medium to bright, indirect light. Varieties with more white or pink coloring need brighter light to maintain their variegation. Avoid direct sun.',
     soil: 'Use a well-draining, peat-based potting mix. Adding perlite or orchid bark improves drainage and root aeration.'
   },
@@ -579,11 +578,11 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
     overview:
       "Peperomias are compact plants with diverse leaf shapes, textures, and patterns ranging from smooth and glossy to deeply textured and rippled. They're slow-growing and stay relatively small, making them perfect for limited spaces.",
     watering:
-      'During growing season (spring and summer), water when the top 2 inches of soil is dry, approximately every 7-10 days. In fall and winter, reduce to every 2-3 weeks. Their thick leaves store water, so they're drought-tolerant.',
+      "During growing season (spring and summer), water when the top 2 inches of soil is dry, approximately every 7-10 days. In fall and winter, reduce to every 2-3 weeks. Their thick leaves store water, so they're drought-tolerant.",
     fertilizer:
       'Feed every 4-6 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. They have low fertilizer needs and can skip feeding in fall and winter.',
     light: 'Prefer bright, indirect light but tolerate medium light conditions. Varieties with darker leaves handle lower light better than variegated types.',
-    soil: 'Need well-draining soil as they're susceptible to root rot. Use a mix of peat-based potting soil with perlite or orchid bark for improved drainage.'
+    soil: "Need well-draining soil as they're susceptible to root rot. Use a mix of peat-based potting soil with perlite or orchid bark for improved drainage."
   },
 
   [PlantType.WaxPlant]: {
@@ -602,8 +601,7 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
       "Tradescantias are fast-growing trailing plants with colorful, striped foliage in combinations of green, purple, pink, and silver. They're vigorous growers that create cascading displays and propagate easily.",
     watering:
       'During growing season (spring and summer), water when the top inch of soil is dry, typically every 5-7 days. In fall and winter, reduce to every 7-10 days. They prefer consistently moist soil but tolerate brief dry periods.',
-    fertilizer:
-      'Feed every 2-3 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
+    fertilizer: 'Feed every 2-3 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
     light: 'Need bright, indirect light to maintain vibrant colors. Lower light causes the colorful variegation to fade and growth to become leggy. Can handle some direct morning sun.',
     soil: "Use a well-draining, general-purpose potting mix. They're not particularly fussy about soil composition."
   },
@@ -613,19 +611,17 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
       "String of Pearls is a distinctive succulent with trailing stems adorned with spherical, pea-shaped leaves that resemble beads on a string. It's a conversation-starter plant perfect for hanging baskets.",
     watering:
       'During growing season (spring and summer), water when the pearls start to slightly shrivel or feel soft, typically every 2-3 weeks. In fall and winter, reduce to every 4-6 weeks. Overwatering is the most common cause of failure.',
-    fertilizer:
-      'Feed 2-3 times during spring and summer (every 6-8 weeks) with a balanced, water-soluble fertilizer diluted to half strength. No fertilizer needed in fall and winter.',
+    fertilizer: 'Feed 2-3 times during spring and summer (every 6-8 weeks) with a balanced, water-soluble fertilizer diluted to half strength. No fertilizer needed in fall and winter.',
     light: 'Needs bright light with some direct sun for compact growth. South or west-facing windows work best. Insufficient light causes stretching and gaps between pearls.',
     soil: 'Requires excellent drainage. Use a cactus or succulent potting mix, or create a blend of potting soil with extra perlite and coarse sand.'
   },
 
   [PlantType.DumbCane]: {
     overview:
-      'Dieffenbachias are upright plants with large, oblong leaves featuring bold white or yellow patterns against green backgrounds. They're fast-growing and make impressive floor plants, though all parts are toxic if ingested.',
+      "Dieffenbachias are upright plants with large, oblong leaves featuring bold white or yellow patterns against green backgrounds. They're fast-growing and make impressive floor plants, though all parts are toxic if ingested.",
     watering:
       'During growing season (spring and summer), water when the top 1-2 inches of soil is dry, approximately every 5-7 days. In fall and winter, reduce watering to every 10-14 days. They prefer evenly moist soil during active growth.',
-    fertilizer:
-      'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer at half strength. Reduce to monthly in fall and skip fertilizing in winter.',
+    fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer at half strength. Reduce to monthly in fall and skip fertilizing in winter.',
     light: 'Thrive in medium to bright, indirect light. Too much direct sun bleaches the leaves, while too little light causes legginess and fading of variegation.',
     soil: 'Use a well-draining, peat-based potting mix that retains some moisture. Adding perlite improves drainage.'
   },
@@ -635,9 +631,9 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
       "Scheffleras are tree-like plants with glossy, palmate leaves that radiate from a central point like umbrella spokes. They're fast-growing and can become impressive indoor trees with proper care.",
     watering:
       'During growing season (spring and summer), water when the top 2-3 inches of soil is dry, typically every 7-10 days. In fall and winter, reduce to every 2-3 weeks. They tolerate some drought but prefer consistent moisture during active growth.',
-    fertilizer:
-      'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and skip fertilizing in winter.',
-    light: 'Prefer bright, indirect light but tolerate medium light conditions. Variegated varieties need brighter light to maintain their patterns. Can adapt to lower light but growth slows significantly.',
+    fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and skip fertilizing in winter.',
+    light:
+      'Prefer bright, indirect light but tolerate medium light conditions. Variegated varieties need brighter light to maintain their patterns. Can adapt to lower light but growth slows significantly.',
     soil: 'Use a well-draining, rich potting mix. Standard houseplant soil works well, or add perlite for improved drainage.'
   },
 
@@ -667,11 +663,11 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
     overview:
       'Cast Iron Plants earn their name from their nearly indestructible nature, tolerating neglect, low light, and temperature fluctuations. They have long, dark green, blade-like leaves that grow directly from the soil.',
     watering:
-      'During growing season (spring and summer), water when the top 2-3 inches of soil is dry, approximately every 7-10 days. In fall and winter, reduce to every 2-3 weeks. They're very drought-tolerant and prefer underwatering to overwatering.',
+      "During growing season (spring and summer), water when the top 2-3 inches of soil is dry, approximately every 7-10 days. In fall and winter, reduce to every 2-3 weeks. They're very drought-tolerant and prefer underwatering to overwatering.",
     fertilizer:
       'Feed once in spring and once in mid-summer with a balanced, water-soluble fertilizer diluted to half strength. They have minimal fertilizer needs and grow well with infrequent feeding.',
     light: 'Tolerates very low light better than almost any other houseplant. Can also handle medium to bright, indirect light, though growth is slow regardless of light level.',
-    soil: 'Use a well-draining, general-purpose potting mix. They're not particular about soil type as long as it drains adequately.'
+    soil: "Use a well-draining, general-purpose potting mix. They're not particular about soil type as long as it drains adequately."
   },
 
   [PlantType.BirdOfParadise]: {
@@ -679,19 +675,17 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
       'Birds of Paradise are dramatic tropical plants with large, banana-like leaves that create a bold architectural statement. Mature plants produce stunning orange and blue flowers resembling tropical birds, though flowering rarely occurs indoors.',
     watering:
       'During growing season (spring and summer), water when the top 2-3 inches of soil is dry, approximately every 5-7 days. In fall and winter, reduce to every 10-14 days. They prefer consistently moist soil during active growth but need good drainage.',
-    fertilizer:
-      'Feed every 2 weeks during spring and summer with a balanced, water-soluble fertilizer at full strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
+    fertilizer: 'Feed every 2 weeks during spring and summer with a balanced, water-soluble fertilizer at full strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
     light: 'Need very bright, indirect light with several hours of direct sun daily for best growth and any chance of flowering. South or west-facing windows are ideal.',
     soil: 'Use a rich, well-draining potting mix. A blend of standard potting soil with perlite and compost works well for providing nutrients and drainage.'
   },
 
   [PlantType.Croton]: {
     overview:
-      'Crotons are flamboyant tropical plants with thick, leathery leaves in brilliant combinations of red, orange, yellow, green, and purple. They're stunning accent plants that require more consistent care than many houseplants.',
+      "Crotons are flamboyant tropical plants with thick, leathery leaves in brilliant combinations of red, orange, yellow, green, and purple. They're stunning accent plants that require more consistent care than many houseplants.",
     watering:
-      'During growing season (spring and summer), water when the top inch of soil is dry, approximately every 5-7 days, keeping soil evenly moist. In fall and winter, reduce to every 7-10 days but don't allow complete drying. They're sensitive to both overwatering and underwatering.',
-    fertilizer:
-      'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
+      "During growing season (spring and summer), water when the top inch of soil is dry, approximately every 5-7 days, keeping soil evenly moist. In fall and winter, reduce to every 7-10 days but don't allow complete drying. They're sensitive to both overwatering and underwatering.",
+    fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
     light: 'Need very bright, indirect light with some direct sun to maintain vibrant leaf colors. Insufficient light causes colors to fade and leaf drop. East or west-facing windows work best.',
     soil: 'Use a well-draining, peat-based potting mix that retains some moisture. Adding perlite helps with drainage while maintaining adequate moisture retention.'
   }
