@@ -34,7 +34,21 @@ export enum PlantType {
   ChineseEvergreen = 'chinese-evergreen',
   BostonFern = 'boston-fern',
   JadePlant = 'jade-plant',
-  EnglishIvy = 'english-ivy'
+  EnglishIvy = 'english-ivy',
+  Succulent = 'succulent',
+  PrayerPlant = 'prayer-plant',
+  ArrowheadPlant = 'arrowhead-plant',
+  Peperomia = 'peperomia',
+  WaxPlant = 'wax-plant',
+  InchPlant = 'inch-plant',
+  StringOfPearls = 'string-of-pearls',
+  DumbCane = 'dumb-cane',
+  UmbrellaPlant = 'umbrella-plant',
+  Anthurium = 'anthurium',
+  ParlorPalm = 'parlor-palm',
+  CastIronPlant = 'cast-iron-plant',
+  BirdOfParadise = 'bird-of-paradise',
+  Croton = 'croton'
 }
 
 export interface PlantWateringDataEntry {

@@ -344,25 +344,361 @@ export const PlantWateringData: Record<PlantType, PlantWateringDataEntry> = {
         maximum: 35 // days
       }
     }
+  },
+
+  [PlantType.Succulent]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.PrayerPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.ArrowheadPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 14 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.Peperomia]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      },
+      outOfSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.WaxPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      },
+      outOfSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.InchPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.StringOfPearls]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 42 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.DumbCane]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 10, // days
+        maximum: 14 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.UmbrellaPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      },
+      outOfSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.Anthurium]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.ParlorPalm]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.CastIronPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      },
+      outOfSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.BirdOfParadise]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 10, // days
+        maximum: 14 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.Croton]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
   }
 };
 
 export const PLANT_IMAGES_BY_TYPE = {
-  [PlantType.Monstera]: require('@/assets/images/plants/optimized-monstera-1.jpg'),
-  [PlantType.Pothos]: require('@/assets/images/plants/optimized-pothos-1.jpg'),
-  [PlantType.Dracaena]: require('@/assets/images/plants/optimized-dracaena-1.jpg'),
-  [PlantType.SpiderPlant]: require('@/assets/images/plants/optimized-spider-plant-1.jpg'),
-  [PlantType.SnakePlant]: require('@/assets/images/plants/optimized-snake-plant-1.jpg'),
-  [PlantType.RubberPlant]: require('@/assets/images/plants/optimized-rubber-plant-1.jpg'),
-  [PlantType.PeaceLily]: require('@/assets/images/plants/optimized-peace-lily-1.jpg'),
-  [PlantType.ZzPlant]: require('@/assets/images/plants/optimized-zz-plant-1.jpg'),
-  [PlantType.Philodendron]: require('@/assets/images/plants/optimized-philodendron-1.jpg'),
-  [PlantType.AloeVera]: require('@/assets/images/plants/optimized-aloe-vera-1.jpg'),
-  [PlantType.FiddleLeafFig]: require('@/assets/images/plants/optimized-fiddle-leaf-fig-1.jpg'),
-  [PlantType.ChineseEvergreen]: require('@/assets/images/plants/optimized-chinese-evergreen-1.webp'),
-  [PlantType.BostonFern]: require('@/assets/images/plants/optimized-boston-fern-1.webp'),
-  [PlantType.JadePlant]: require('@/assets/images/plants/optimized-jade-plant-1.jpg'),
-  [PlantType.EnglishIvy]: require('@/assets/images/plants/optimized-english-ivy-1.jpg')
+  [PlantType.Monstera]: require('@/assets/images/plants/monstera-1.jpg'),
+  [PlantType.Pothos]: require('@/assets/images/plants/pothos-1.jpg'),
+  [PlantType.Dracaena]: require('@/assets/images/plants/dracaena-1.jpg'),
+  [PlantType.SpiderPlant]: require('@/assets/images/plants/spider-plant-1.jpg'),
+  [PlantType.SnakePlant]: require('@/assets/images/plants/snake-plant-1.jpg'),
+  [PlantType.RubberPlant]: require('@/assets/images/plants/rubber-plant-1.jpg'),
+  [PlantType.PeaceLily]: require('@/assets/images/plants/peace-lily-1.jpg'),
+  [PlantType.ZzPlant]: require('@/assets/images/plants/zz-plant-1.jpg'),
+  [PlantType.Philodendron]: require('@/assets/images/plants/philodendron-1.jpg'),
+  [PlantType.AloeVera]: require('@/assets/images/plants/aloe-vera-1.jpg'),
+  [PlantType.FiddleLeafFig]: require('@/assets/images/plants/fiddle-leaf-fig-1.jpg'),
+  [PlantType.ChineseEvergreen]: require('@/assets/images/plants/chinese-evergreen-1.jpg'),
+  [PlantType.BostonFern]: require('@/assets/images/plants/boston-fern-1.jpg'),
+  [PlantType.JadePlant]: require('@/assets/images/plants/jade-plant-1.jpg'),
+  [PlantType.EnglishIvy]: require('@/assets/images/plants/english-ivy-1.jpg'),
+  [PlantType.Succulent]: require('@/assets/images/plants/succulent-1.jpg'),
+  [PlantType.PrayerPlant]: require('@/assets/images/plants/prayer-plant-1.jpg'),
+  [PlantType.ArrowheadPlant]: require('@/assets/images/plants/arrowhead-plant-1.jpg'),
+  [PlantType.Peperomia]: require('@/assets/images/plants/peperomia-1.jpg'),
+  [PlantType.WaxPlant]: require('@/assets/images/plants/wax-plant-1.jpg'),
+  [PlantType.InchPlant]: require('@/assets/images/plants/inch-plant-1.jpg'),
+  [PlantType.StringOfPearls]: require('@/assets/images/plants/string-of-pearls-1.jpg'),
+  [PlantType.DumbCane]: require('@/assets/images/plants/dumb-cane-1.jpg'),
+  [PlantType.UmbrellaPlant]: require('@/assets/images/plants/umbrella-plant-1.jpg'),
+  [PlantType.Anthurium]: require('@/assets/images/plants/anthurium-1.jpg'),
+  [PlantType.ParlorPalm]: require('@/assets/images/plants/parlor-palm-1.jpg'),
+  [PlantType.CastIronPlant]: require('@/assets/images/plants/cast-iron-plant-1.jpg'),
+  [PlantType.BirdOfParadise]: require('@/assets/images/plants/bird-of-paradise-1.jpg'),
+  [PlantType.Croton]: require('@/assets/images/plants/croton-1.jpg')
 };
 
 export interface PlantCareData {
@@ -526,5 +862,153 @@ export const PLANT_CARE_DATA: Record<PlantType, PlantCareData> = {
     fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and skip fertilizing in winter.',
     light: 'Prefers bright, indirect light but tolerates medium light conditions. Variegated varieties need more light to maintain their patterns.',
     soil: 'Use a well-draining, general-purpose potting mix. Adding perlite can improve drainage and prevent root rot.'
+  },
+
+  [PlantType.Succulent]: {
+    overview:
+      "Succulents are a diverse group of water-storing plants with thick, fleshy leaves that come in countless shapes, colors, and sizes. They're low-maintenance and perfect for sunny windowsills or bright desks.",
+    watering:
+      'During growing season (spring and summer), water deeply every 2-3 weeks when soil is completely dry. In fall and winter, reduce to once a month or less as they enter dormancy. Overwatering causes rot, so always err on the side of underwatering.',
+    fertilizer:
+      'Feed 2-3 times during spring and summer (every 6-8 weeks) with a balanced, water-soluble fertilizer diluted to half strength or use a succulent-specific formula. No fertilizer needed in fall and winter.',
+    light: 'Need bright light with several hours of direct sun daily. South or west-facing windows are ideal. Insufficient light causes stretching and pale coloring.',
+    soil: 'Require excellent drainage. Use a cactus or succulent potting mix, or create a blend of regular potting soil with coarse sand and perlite in a 1:1:1 ratio.'
+  },
+
+  [PlantType.PrayerPlant]: {
+    overview:
+      'Calatheas are stunning tropical plants known for their elaborately patterned leaves and unique behavior of folding their leaves up at night. They require more attention than most houseplants but reward you with dramatic foliage.',
+    watering:
+      "During growing season (spring and summer), water when the top inch of soil is dry, typically every 5-7 days, keeping soil consistently moist. In fall and winter, reduce to every 7-10 days. Use filtered or distilled water as they're sensitive to chemicals in tap water.",
+    fertilizer:
+      'Feed every 3-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to quarter strength. Reduce to every 6-8 weeks in fall and skip fertilizing in winter.',
+    light: 'Prefer medium to bright, indirect light. Direct sunlight will fade the leaf patterns and scorch the leaves. Can tolerate lower light but growth will slow.',
+    soil: 'Need well-draining, moisture-retentive soil. Use a peat-based mix with added perlite for drainage, or a specialized African violet mix.'
+  },
+
+  [PlantType.ArrowheadPlant]: {
+    overview:
+      'Syngoniums are fast-growing vining plants with arrow-shaped leaves that come in shades of green, pink, and white. As they mature, the leaf shape changes from compact arrows to larger, more lobed foliage.',
+    watering:
+      'During growing season (spring and summer), water when the top inch of soil is dry, approximately every 5-7 days. In fall and winter, reduce watering to every 10-14 days. They prefer evenly moist soil but tolerate brief periods of dryness.',
+    fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and skip fertilizing in winter.',
+    light: 'Thrive in medium to bright, indirect light. Varieties with more white or pink coloring need brighter light to maintain their variegation. Avoid direct sun.',
+    soil: 'Use a well-draining, peat-based potting mix. Adding perlite or orchid bark improves drainage and root aeration.'
+  },
+
+  [PlantType.Peperomia]: {
+    overview:
+      "Peperomias are compact plants with diverse leaf shapes, textures, and patterns ranging from smooth and glossy to deeply textured and rippled. They're slow-growing and stay relatively small, making them perfect for limited spaces.",
+    watering:
+      "During growing season (spring and summer), water when the top 2 inches of soil is dry, approximately every 7-10 days. In fall and winter, reduce to every 2-3 weeks. Their thick leaves store water, so they're drought-tolerant.",
+    fertilizer:
+      'Feed every 4-6 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. They have low fertilizer needs and can skip feeding in fall and winter.',
+    light: 'Prefer bright, indirect light but tolerate medium light conditions. Varieties with darker leaves handle lower light better than variegated types.',
+    soil: "Need well-draining soil as they're susceptible to root rot. Use a mix of peat-based potting soil with perlite or orchid bark for improved drainage."
+  },
+
+  [PlantType.WaxPlant]: {
+    overview:
+      "Hoyas are trailing or climbing succulents with thick, waxy leaves and clusters of fragrant, star-shaped flowers when mature. They're long-lived plants that become more beautiful with age.",
+    watering:
+      'During growing season (spring and summer), water when the top inch of soil is dry and the leaves feel slightly less firm, typically every 7-10 days. In fall and winter, reduce to every 2-3 weeks. They prefer to dry out between waterings.',
+    fertilizer:
+      'Feed every 2-4 weeks during spring and summer with a high-phosphorus fertilizer (like a bloom formula) diluted to half strength to encourage flowering. Reduce to monthly in fall and skip in winter.',
+    light: 'Need bright, indirect light with some direct morning sun to bloom well. Can tolerate medium light but flowering will be reduced or absent.',
+    soil: 'Require well-draining soil. Use a chunky mix of potting soil, orchid bark, and perlite, or a succulent mix with added organic matter.'
+  },
+
+  [PlantType.InchPlant]: {
+    overview:
+      "Tradescantias are fast-growing trailing plants with colorful, striped foliage in combinations of green, purple, pink, and silver. They're vigorous growers that create cascading displays and propagate easily.",
+    watering:
+      'During growing season (spring and summer), water when the top inch of soil is dry, typically every 5-7 days. In fall and winter, reduce to every 7-10 days. They prefer consistently moist soil but tolerate brief dry periods.',
+    fertilizer: 'Feed every 2-3 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
+    light: 'Need bright, indirect light to maintain vibrant colors. Lower light causes the colorful variegation to fade and growth to become leggy. Can handle some direct morning sun.',
+    soil: "Use a well-draining, general-purpose potting mix. They're not particularly fussy about soil composition."
+  },
+
+  [PlantType.StringOfPearls]: {
+    overview:
+      "String of Pearls is a distinctive succulent with trailing stems adorned with spherical, pea-shaped leaves that resemble beads on a string. It's a conversation-starter plant perfect for hanging baskets.",
+    watering:
+      'During growing season (spring and summer), water when the pearls start to slightly shrivel or feel soft, typically every 2-3 weeks. In fall and winter, reduce to every 4-6 weeks. Overwatering is the most common cause of failure.',
+    fertilizer: 'Feed 2-3 times during spring and summer (every 6-8 weeks) with a balanced, water-soluble fertilizer diluted to half strength. No fertilizer needed in fall and winter.',
+    light: 'Needs bright light with some direct sun for compact growth. South or west-facing windows work best. Insufficient light causes stretching and gaps between pearls.',
+    soil: 'Requires excellent drainage. Use a cactus or succulent potting mix, or create a blend of potting soil with extra perlite and coarse sand.'
+  },
+
+  [PlantType.DumbCane]: {
+    overview:
+      "Dieffenbachias are upright plants with large, oblong leaves featuring bold white or yellow patterns against green backgrounds. They're fast-growing and make impressive floor plants, though all parts are toxic if ingested.",
+    watering:
+      'During growing season (spring and summer), water when the top 1-2 inches of soil is dry, approximately every 5-7 days. In fall and winter, reduce watering to every 10-14 days. They prefer evenly moist soil during active growth.',
+    fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer at half strength. Reduce to monthly in fall and skip fertilizing in winter.',
+    light: 'Thrive in medium to bright, indirect light. Too much direct sun bleaches the leaves, while too little light causes legginess and fading of variegation.',
+    soil: 'Use a well-draining, peat-based potting mix that retains some moisture. Adding perlite improves drainage.'
+  },
+
+  [PlantType.UmbrellaPlant]: {
+    overview:
+      "Scheffleras are tree-like plants with glossy, palmate leaves that radiate from a central point like umbrella spokes. They're fast-growing and can become impressive indoor trees with proper care.",
+    watering:
+      'During growing season (spring and summer), water when the top 2-3 inches of soil is dry, typically every 7-10 days. In fall and winter, reduce to every 2-3 weeks. They tolerate some drought but prefer consistent moisture during active growth.',
+    fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and skip fertilizing in winter.',
+    light:
+      'Prefer bright, indirect light but tolerate medium light conditions. Variegated varieties need brighter light to maintain their patterns. Can adapt to lower light but growth slows significantly.',
+    soil: 'Use a well-draining, rich potting mix. Standard houseplant soil works well, or add perlite for improved drainage.'
+  },
+
+  [PlantType.Anthurium]: {
+    overview:
+      'Anthuriums are exotic tropical plants known for their glossy, heart-shaped flowers (actually modified leaves called spathes) in red, pink, white, or orange. The blooms are long-lasting and appear throughout the year with proper care.',
+    watering:
+      'During growing season (spring and summer), water when the top inch of soil is dry, approximately every 5-7 days. In fall and winter, reduce to every 7-10 days. They prefer evenly moist soil but excellent drainage to prevent root rot.',
+    fertilizer:
+      'Feed every 2-4 weeks during spring and summer with a phosphorus-rich fertilizer diluted to quarter strength to encourage blooming. Reduce to monthly in fall and every 6-8 weeks in winter.',
+    light: 'Need bright, indirect light to bloom well. Direct sun burns the leaves and flowers. Can tolerate medium light but flowering will be reduced.',
+    soil: 'Require a very well-draining, chunky mix. Use an orchid potting mix or create a blend of peat, perlite, and orchid bark in equal parts.'
+  },
+
+  [PlantType.ParlorPalm]: {
+    overview:
+      "Parlor Palms are compact, elegant palms with delicate, arching fronds that bring a tropical feel to any space. They're slow-growing, shade-tolerant, and one of the easiest palms to grow indoors.",
+    watering:
+      'During growing season (spring and summer), water when the top inch of soil is dry, keeping soil consistently moist but not waterlogged, typically every 5-7 days. In fall and winter, reduce to every 7-10 days as growth slows.',
+    fertilizer:
+      'Feed every 4-6 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength or use a palm-specific fertilizer. Reduce to every 8 weeks in fall and skip winter feeding.',
+    light: 'Thrive in low to medium, indirect light, making them perfect for dimmer corners. Can tolerate brighter light but avoid direct sun which scorches the fronds.',
+    soil: 'Use a well-draining, peat-based potting mix that retains some moisture. A mix with added perlite works well.'
+  },
+
+  [PlantType.CastIronPlant]: {
+    overview:
+      'Cast Iron Plants earn their name from their nearly indestructible nature, tolerating neglect, low light, and temperature fluctuations. They have long, dark green, blade-like leaves that grow directly from the soil.',
+    watering:
+      "During growing season (spring and summer), water when the top 2-3 inches of soil is dry, approximately every 7-10 days. In fall and winter, reduce to every 2-3 weeks. They're very drought-tolerant and prefer underwatering to overwatering.",
+    fertilizer:
+      'Feed once in spring and once in mid-summer with a balanced, water-soluble fertilizer diluted to half strength. They have minimal fertilizer needs and grow well with infrequent feeding.',
+    light: 'Tolerates very low light better than almost any other houseplant. Can also handle medium to bright, indirect light, though growth is slow regardless of light level.',
+    soil: "Use a well-draining, general-purpose potting mix. They're not particular about soil type as long as it drains adequately."
+  },
+
+  [PlantType.BirdOfParadise]: {
+    overview:
+      'Birds of Paradise are dramatic tropical plants with large, banana-like leaves that create a bold architectural statement. Mature plants produce stunning orange and blue flowers resembling tropical birds, though flowering rarely occurs indoors.',
+    watering:
+      'During growing season (spring and summer), water when the top 2-3 inches of soil is dry, approximately every 5-7 days. In fall and winter, reduce to every 10-14 days. They prefer consistently moist soil during active growth but need good drainage.',
+    fertilizer: 'Feed every 2 weeks during spring and summer with a balanced, water-soluble fertilizer at full strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
+    light: 'Need very bright, indirect light with several hours of direct sun daily for best growth and any chance of flowering. South or west-facing windows are ideal.',
+    soil: 'Use a rich, well-draining potting mix. A blend of standard potting soil with perlite and compost works well for providing nutrients and drainage.'
+  },
+
+  [PlantType.Croton]: {
+    overview:
+      "Crotons are flamboyant tropical plants with thick, leathery leaves in brilliant combinations of red, orange, yellow, green, and purple. They're stunning accent plants that require more consistent care than many houseplants.",
+    watering:
+      "During growing season (spring and summer), water when the top inch of soil is dry, approximately every 5-7 days, keeping soil evenly moist. In fall and winter, reduce to every 7-10 days but don't allow complete drying. They're sensitive to both overwatering and underwatering.",
+    fertilizer: 'Feed every 2-4 weeks during spring and summer with a balanced, water-soluble fertilizer diluted to half strength. Reduce to monthly in fall and every 6-8 weeks in winter.',
+    light: 'Need very bright, indirect light with some direct sun to maintain vibrant leaf colors. Insufficient light causes colors to fade and leaf drop. East or west-facing windows work best.',
+    soil: 'Use a well-draining, peat-based potting mix that retains some moisture. Adding perlite helps with drainage while maintaining adequate moisture retention.'
   }
 };

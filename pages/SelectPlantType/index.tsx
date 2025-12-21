@@ -1,23 +1,27 @@
-import { FlatList, View, Pressable, StyleSheet } from 'react-native';
+import { FlatList, ListRenderItem, View, Pressable, StyleSheet } from 'react-native';
 import { Text } from '@/components/Text/index';
 import { getImageByPlantType } from '@/utils/getImageByPlantType';
 import { Image } from 'expo-image';
 import { spacing, colors, shadows } from '@/constants/design-tokens';
 import { router } from 'expo-router';
 import { Icon } from '@/components/Icon';
-import { PLANT_LIST_DATA, SelectPlantTypeProps } from './data';
+import { PLANT_TYPE_DROPDOWN_DATA, SelectPlantTypeProps, PLANT_DROPDOWN_ITEM } from './data';
 
 export function SelectPlantType({ onSelectPlant, title = 'Choose plant type', subtitle = 'Select from common houseplants', hideBackButton = false }: SelectPlantTypeProps) {
-  const renderPlantRow = ({ item }) => (
-    <Pressable style={({ pressed }) => [styles.plantRow, pressed && styles.plantRowPressed]} onPress={() => onSelectPlant(item.value)}>
-      <Image source={getImageByPlantType(item.value)} style={styles.plantImage} contentFit='cover' />
-      <View style={styles.plantInfo}>
-        <Text variant='body' weight='medium'>
-          {item.label}
-        </Text>
-      </View>
-    </Pressable>
-  );
+  const renderPlantRow: ListRenderItem<PLANT_DROPDOWN_ITEM> = ({ item, index }) => {
+    const isLastItem = index === PLANT_TYPE_DROPDOWN_DATA.length - 1;
+
+    return (
+      <Pressable style={({ pressed }) => [styles.plantRow, pressed && styles.plantRowPressed, isLastItem && styles.plantRowLast]} onPress={() => onSelectPlant(item.value)}>
+        <Image source={getImageByPlantType(item.value)} style={styles.plantImage} contentFit='cover' />
+        <View style={styles.plantInfo}>
+          <Text variant='body' weight='medium'>
+            {item.label}
+          </Text>
+        </View>
+      </Pressable>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -40,7 +44,7 @@ export function SelectPlantType({ onSelectPlant, title = 'Choose plant type', su
         )}
       </View>
 
-      <FlatList data={PLANT_LIST_DATA} renderItem={renderPlantRow} keyExtractor={(item) => item.value} contentContainerStyle={styles.listContent} />
+      <FlatList data={PLANT_TYPE_DROPDOWN_DATA} renderItem={renderPlantRow} keyExtractor={(item) => item.value} contentContainerStyle={styles.listContent} />
     </View>
   );
 }
@@ -74,6 +78,9 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: colors.neutral[200]
+  },
+  plantRowLast: {
+    borderBottomWidth: 0
   },
   plantRowPressed: {
     backgroundColor: colors.neutral[100]
