@@ -344,6 +344,328 @@ export const PlantWateringData: Record<PlantType, PlantWateringDataEntry> = {
         maximum: 35 // days
       }
     }
+  },
+
+  [PlantType.Succulent]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.PrayerPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.ArrowheadPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 14 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.Peperomia]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      },
+      outOfSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.WaxPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      },
+      outOfSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.InchPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.StringOfPearls]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 42 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.DumbCane]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 10, // days
+        maximum: 14 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.UmbrellaPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      },
+      outOfSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.Anthurium]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.ParlorPalm]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.CastIronPlant]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      },
+      outOfSeason: {
+        minimum: 14, // days
+        maximum: 21 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.BirdOfParadise]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 10, // days
+        maximum: 14 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
+  },
+
+  [PlantType.Croton]: {
+    wateringRange: {
+      inSeason: {
+        minimum: 5, // days
+        maximum: 7 // days
+      },
+      outOfSeason: {
+        minimum: 7, // days
+        maximum: 10 // days
+      }
+    },
+    fertilizeRange: {
+      inSeason: {
+        minimum: 14, // days
+        maximum: 28 // days
+      },
+      outOfSeason: {
+        minimum: 28, // days
+        maximum: 35 // days
+      }
+    }
   }
 };
 
