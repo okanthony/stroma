@@ -1,5 +1,5 @@
 // Components
-import { View, StyleSheet, KeyboardAvoidingView, Platform, Linking, Image, Keyboard, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, Linking, Image, Keyboard, ScrollView } from 'react-native';
 import { ScreenContainer } from '@/components/ScreenContainer';
 import { Field } from '@/components/Field';
 import { FieldError } from '@/components/FieldError';
@@ -263,37 +263,35 @@ export default function SignIn() {
     <ScreenContainer>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.content}>
-              <Column gap='lg'>
-                {/* Header */}
-                <Column gap='sm'>
-                  {/* Logo */}
-                  <View style={styles.logoContainer}>
-                    <Image source={require('@/assets/images/logo-transparent.png')} style={styles.logo} resizeMode='contain' />
-                  </View>
+          <View style={styles.content}>
+            <Column gap='lg'>
+              {/* Header */}
+              <Column gap='sm'>
+                {/* Logo */}
+                <View style={styles.logoContainer}>
+                  <Image source={require('@/assets/images/logo-transparent.png')} style={styles.logo} resizeMode='contain' />
+                </View>
 
-                  <Text variant='heading' style={styles.title}>
-                    {title}
-                  </Text>
-                  <Text variant='body' style={styles.subtitle}>
-                    {subtitle}
-                  </Text>
-                </Column>
-
-                {/* Form */}
-                <Column style={styles.formContainer}>
-                  {/* Server errors */}
-                  {authError && !isLoading && (
-                    <View style={styles.authErrorContainer}>
-                      <Text style={styles.authErrorText}>{authError}</Text>
-                    </View>
-                  )}
-                  {renderForm()}
-                </Column>
+                <Text variant='heading' style={styles.title}>
+                  {title}
+                </Text>
+                <Text variant='body' style={styles.subtitle}>
+                  {subtitle}
+                </Text>
               </Column>
-            </View>
-          </TouchableWithoutFeedback>
+
+              {/* Form */}
+              <Column style={styles.formContainer}>
+                {/* Server errors */}
+                {authError && !isLoading && (
+                  <View style={styles.authErrorContainer}>
+                    <Text style={styles.authErrorText}>{authError}</Text>
+                  </View>
+                )}
+                {renderForm()}
+              </Column>
+            </Column>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </ScreenContainer>
